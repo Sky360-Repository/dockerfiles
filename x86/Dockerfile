@@ -46,32 +46,6 @@ RUN apt-get update && apt-get upgrade -y &&\
         python3-numpy \
     && rm -rf /var/lib/apt/lists/*
 
- RUN cd /opt/ &&\
-     # Download and unzip OpenCV and opencv_contrib and delte zip files
-     wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip &&\
-     unzip $OPENCV_VERSION.zip &&\
-     rm $OPENCV_VERSION.zip &&\
-     wget https://github.com/opencv/opencv_contrib/archive/$OPENCV_VERSION.zip &&\
-     unzip ${OPENCV_VERSION}.zip &&\
-     rm ${OPENCV_VERSION}.zip &&\
-     # Create build folder and switch to it
-     mkdir /opt/opencv-${OPENCV_VERSION}/build && cd /opt/opencv-${OPENCV_VERSION}/build &&\
-     # Cmake configure
-     cmake \
-         -DOPENCV_EXTRA_MODULES_PATH=/opt/opencv_contrib-${OPENCV_VERSION}/modules \
-         -DWITH_CUDA=ON \
-         -DCMAKE_BUILD_TYPE=RELEASE \
-         # Install path will be /usr/local/lib (lib is implicit)
-         -DCMAKE_INSTALL_PREFIX=/usr/local \
-         .. &&\
-    # Make
-    make -j"$(nproc)" && \
-    # Install to /usr/local/lib
-    make install && \
-    ldconfig &&\
-    # Remove OpenCV sources and build folder
-#    rm -rf /opt/opencv-${OPENCV_VERSION} && rm -rf /opt/opencv_contrib-${OPENCV_VERSION}
-
 
 RUN wget \
      https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
@@ -86,3 +60,49 @@ RUN conda init bash
 COPY install_ml.sh /root/install_ml.sh
 
 RUN /root/install_ml.sh /root/miniconda3/
+
+
+ARG CONDA_PREFIX=/root/miniconda3
+ENV CPLUS_INCLUDE_PATH=$CONDA_PREFIX/lib/python3.9
+
+RUN cd /opt/ &&\
+     # Download and unzip OpenCV and opencv_contrib and delte zip files
+     wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip &&\
+     unzip $OPENCV_VERSION.zip &&\
+     rm $OPENCV_VERSION.zip &&\
+     wget https://github.com/opencv/opencv_contrib/archive/$OPENCV_VERSION.zip &&\
+     unzip ${OPENCV_VERSION}.zip &&\
+     rm ${OPENCV_VERSION}.zip
+     # Create build folder and switch to it
+
+
+# Cmake configure
+RUN   mkdir /opt/opencv-${OPENCV_VERSION}/build && cd /opt/opencv-${OPENCV_VERSION}/build && \
+      cmake \
+         -D OPENCV_EXTRA_MODULES_PATH=/opt/opencv_contrib-${OPENCV_VERSION}/modules \
+         -D WITH_CUDA=ON \
+         -D CMAKE_BUILD_TYPE=RELEASE \
+         -D CMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
+         -D PYTHON3_LIBRARY=$CONDA_PREFIX/lib/python3.9 \
+         -D PYTHON3_INCLUDE_DIR=$CONDA_PREFIX/include/python3.9 \
+         -D PYTHON3_EXECUTABLE=$CONDA_PREFIX/bin/python \
+         -D PYTHON3_PACKAGES_PATH=$CONDA_PREFIX/lib/python3.9/site-packages \
+	 -D BUILD_TIFF=ON \
+	 -D BUILD_PNG=ON -D BUILD_JPEG=ON \
+	 -D BUILD_ZLIB=ON \
+         ..
+	 
+
+# Make
+RUN cd /opt/opencv-${OPENCV_VERSION}/build && \
+    make -j4
+
+    # Install to /usr/local/lib
+RUN cd /opt/opencv-${OPENCV_VERSION}/build && \
+    make install && \
+    ldconfig
+    # &&\
+    # Remove OpenCV sources and build folder
+#    rm -rf /opt/opencv-${OPENCV_VERSION} && rm -rf /opt/opencv_contrib-${OPENCV_VERSION}
+
+
