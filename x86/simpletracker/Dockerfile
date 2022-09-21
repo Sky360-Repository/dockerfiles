@@ -6,6 +6,9 @@
 # 1. ensure ou have exported your display i.e. edit the ~/.bashrc file and add 'export DISPLAY=:0' (excl the ' quotes) 
 # where 0 is the index of your display. Its normally 0 but for me its 1
 # 2. then run xhost +
+#
+# ./run.sh
+
 
 FROM sky360/opencv4:4.6.0
 
