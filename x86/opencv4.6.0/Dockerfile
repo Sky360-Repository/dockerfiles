@@ -1,0 +1,60 @@
+# docker build -f Dockerfile . -t sky360/opencv4:4.6.0
+
+FROM sky360/opencv4:base
+
+WORKDIR /tmp
+
+ENV OPENCV_VERSION=4.6.0
+
+RUN wget -O opencv-$OPENCV_VERSION.zip https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip
+RUN wget -O opencv_contrib-$OPENCV_VERSION.zip https://github.com/opencv/opencv_contrib/archive/$OPENCV_VERSION.zip
+
+RUN unzip opencv-$OPENCV_VERSION.zip
+RUN unzip opencv_contrib-$OPENCV_VERSION.zip
+
+RUN rm -f opencv-$OPENCV_VERSION.zip
+RUN rm -f opencv_contrib-$OPENCV_VERSION.zip
+
+RUN cd opencv-$OPENCV_VERSION && mkdir build && cd build
+WORKDIR /tmp/opencv-$OPENCV_VERSION/build
+
+RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
+      -D CMAKE_INSTALL_PREFIX=/usr/local \
+      -D OPENCV_GENERATE_PKGCONFIG=YES \
+      -D ENABLE_PRECOMPILED_HEADERS=OFF \
+      -D WITH_LIBV4L=ON \
+      -D WITH_QT=ON \
+      -D WITH_OPENGL=ON \
+      -D WITH_JAVA=OFF \
+      -D WITH_CUDA=OFF \
+      -D BUILD_opencv_java=OFF \
+      -D BUILD_opencv_python=OFF \
+      -D BUILD_opencv_python2=OFF \
+      -D BUILD_opencv_python3=ON \
+      -D PYTHON3_EXECUTABLE=$(which python3) \
+      -D PYTHON3_INCLUDE_DIR=$(python3 -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") \
+      -D PYTHON3_PACKAGES_PATH=$(python3 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") \
+      -D INSTALL_PYTHON_EXAMPLES=OFF \
+      -D BUILD_NEW_PYTHON_SUPPORT=ON \
+      -D ENABLE_CXX11=ON \
+      -D WITH_IPP=ON \
+      -D WITH_TBB=ON \
+      -D BUILD_TESTS=OFF \
+      -D INSTALL_TESTS=OFF \
+      -D BUILD_PERF_TESTS=OFF \
+      -D BUILD_EXAMPLES=OFF \
+      -D INSTALL_C_EXAMPLES=OFF \
+      -D OPENCV_ENABLE_NONFREE=ON \
+      -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-$OPENCV_VERSION/modules \
+      ../
+
+RUN make -j $(nproc)
+RUN make install
+
+RUN sh -c 'echo "/usr/local/lib" >> /etc/ld.so.conf.d/opencv.conf'
+RUN ldconfig
+ENV PYTHONPATH=$PYTHONPATH:/usr/lib/python3.8/site-packages/cv2/python-3.8
+WORKDIR /opt
+
+RUN apt-get autoclean && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
