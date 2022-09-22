@@ -43,7 +43,7 @@ Running the CUDA container
 
 When inside the CUDA container enable CUDA for Simpletracker:
 
-1. use the nano editor i.e. `nano ./settings.toml' to set the **enable_cuda=false** to **enable_cuda=true**
+1. use the nano editor i.e. `nano ./settings.toml` to set the **enable_cuda=false** to **enable_cuda=true**
 2. `ctrl x` to save and exit
 3. `./run.sh` to run simple tracker
 
