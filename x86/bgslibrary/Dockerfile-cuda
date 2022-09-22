@@ -9,7 +9,7 @@ RUN git clone --recursive https://github.com/andrewssobral/bgslibrary.git
 
 # Compile C++ library
 WORKDIR /opt/bgslibrary/build
-RUN cmake .. && make -j4
+RUN cmake .. && make -j $(nproc)
 
 # Build and install the python wrapper
 WORKDIR /opt/bgslibrary
@@ -19,9 +19,9 @@ ENV PYTHONPATH=$PYTHONPATH:/opt/bgslibrary/build/lib.linux-x86_64-cpython-38
 
 # Compile the C++ QT User Interface
 WORKDIR /opt/bgslibrary/gui/qt/build
-RUN cmake .. && make -j4
+RUN cmake .. && make -j $(nproc)
 RUN cp bgslibrary_gui ../../..
 
 # Compile examples
 WORKDIR /opt/bgslibrary/examples/build
-RUN cmake .. && make -j410
+RUN cmake .. && make -j $(nproc)
