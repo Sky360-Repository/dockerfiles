@@ -1,11 +1,15 @@
 # docker build -f Dockerfile . -t sky360/simpletracker-cuda:1.0.0
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-cuda:1.0.0 bash
+# https://medium.com/ava-information/enabling-gpus-with-nvidia-docker-container-runtime-b4619d9173f5
+# https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-22-04
+# https://stackoverflow.com/questions/25185405/using-gpu-from-a-docker-container
+# docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-cuda:1.0.0 bash
 
 # if you get an error similar to this: 
 #    error: (-2:Unspecified error) Can’t initialize GTK backend in function
 # 1. ensure ou have exported your display i.e. edit the ~/.bashrc file and add 'export DISPLAY=:0' (excl the ' quotes) 
 # where 0 is the index of your display. Its normally 0 but for me its 1
 # 2. then run xhost +
+# NOTE: You will need the nvidia docker runtime installed in order to run simple tracker with cuda enabled, I have added some links above for this
 
 FROM sky360/opencv4-cuda:4.6.0
 
