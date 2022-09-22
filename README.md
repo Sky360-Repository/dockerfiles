@@ -32,7 +32,7 @@
 
 I used the following to:
 
-* [Install docker contrainer runtime](https://medium.com/ava-information/enabling-gpus-with-nvidia-docker-container-runtime-b4619d9173f5)
+* [Install nvidia docker container runtime](https://medium.com/ava-information/enabling-gpus-with-nvidia-docker-container-runtime-b4619d9173f5)
 * [Install docker compose](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-22-04)
 
 Remember to restart docker once you have installed the above using `sudo systemctl restart docker`
