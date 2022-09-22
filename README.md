@@ -28,14 +28,14 @@
 
 `$ docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.0 bash`
 
-**NOTE** For the CUDA version there is more work to do. You will need to install the docker cuda runtime
+**NOTE** For the CUDA version there is more work to do. You will need to install the nvidia docker container runtime
 
-I used the following to:
+I used the following to do this:
 
 * [Install nvidia docker container runtime](https://medium.com/ava-information/enabling-gpus-with-nvidia-docker-container-runtime-b4619d9173f5)
 * [Install docker compose](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-22-04)
 
-Remember to restart docker once you have installed the above using `sudo systemctl restart docker`
+Remember to restart docker once you have installed the above using: `sudo systemctl restart docker`
 
 Running the CUDA container
 
