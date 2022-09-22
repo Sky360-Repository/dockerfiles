@@ -39,6 +39,10 @@ Remember to restart docker once you have installed the above using: `sudo system
 
 Running the CUDA container
 
+`$ export DISPLAY=:0`
+
+`$ xhost +`
+
 `$ docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-cuda:1.0.0 bash`
 
 When inside the CUDA container enable CUDA for Simpletracker:
