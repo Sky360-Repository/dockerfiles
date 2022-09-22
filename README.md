@@ -5,22 +5,27 @@
 ### base
 
 `$ docker build -f Dockerfile . -t sky360/opencv4:base`
+
 `$ docker build -f Dockerfile-cuda . -t sky360/opencv4-cuda:base`
 
 ### opencv4.6.0
 
 `$ docker build -f Dockerfile . -t sky360/opencv4:4.6.0`
+
 `$ docker build -f Dockerfile-cuda . -t sky360/opencv4-cuda:4.6.0`
 
 ### simple tracker
 
 `$ docker build -f Dockerfile . -t sky360/simpletracker:1.0.0`
+
 `$ docker build -f Dockerfile-cuda . -t sky360/simpletracker-cuda:1.0.0`
 
 ## Running
 
 `$ export DISPLAY=:0`
+
 `$ xhost +`
+
 `$ docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.0 bash`
 
 **NOTE** For the CUDA version there is more work to do. You will need to install the docker cuda runtime
