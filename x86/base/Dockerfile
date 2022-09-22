@@ -35,10 +35,15 @@ RUN apt-get update && apt-get install -y \
     libtbb2 \
     libtbb-dev \
     #libdc1394-22-dev \
+    libdc1394-dev \
     libopenexr-dev \
     libgstreamer-plugins-base1.0-dev \
-    libgstreamer1.0-dev
+    libgstreamer1.0-dev \
     #qt5-default
+    qtbase5-dev \
+    qtchooser \
+    qt5-qmake \
+    qtbase5-dev-tools
 
 # Install boost
 RUN apt-get install -y libboost-all-dev

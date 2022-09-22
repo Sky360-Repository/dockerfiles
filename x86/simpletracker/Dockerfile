@@ -10,7 +10,7 @@
 # ./run.sh
 
 
-FROM sky360/opencv4:4.6.0
+FROM sky360/bgslibrary:opencv4.6.0
 
 WORKDIR /opt
 

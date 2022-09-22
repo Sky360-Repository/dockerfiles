@@ -1,5 +1,7 @@
 ## If you would like to build the docker containers here are the commands
 
+If you would like to build the cuda images you will need to have a NVIDIA graphics card as well as the NVIDIA CUDA Toolkit and the NVIDIA CUDA Deep Neural Network library (cuDNN) installed. I have used [this artickle](https://medium.com/@juancrrn/installing-cuda-and-cudnn-in-ubuntu-20-04-for-deep-learning-dad8841714d6) in the past as a reference.
+
 ## Building
 
 ### base
@@ -14,6 +16,12 @@
 
 `$ docker build -f Dockerfile-cuda . -t sky360/opencv4-cuda:4.6.0`
 
+### BGSLibrary
+
+`$ docker build -f Dockerfile . -t sky360/bgslibrary:opencv4.6.0`
+
+`$ docker build -f Dockerfile-cuda . -t sky360/bgslibrary-cuda:opencv4.6.0`
+
 ### simple tracker
 
 `$ docker build -f Dockerfile . -t sky360/simpletracker:1.0.0`
@@ -27,6 +35,10 @@
 `$ xhost +`
 
 `$ docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.0 bash`
+
+When inside the container run simple tracker using the command below:
+
+1. `./run.sh` to run simple tracker
 
 **NOTE** For the CUDA version there is more work to do. You will need to install the nvidia docker container runtime
 
@@ -45,11 +57,9 @@ Running the CUDA container
 
 `$ docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-cuda:1.0.0 bash`
 
-When inside the CUDA container enable CUDA for Simpletracker:
+When inside the container run simple tracker using the command below:
 
-1. use the nano editor i.e. `nano ./settings.toml` to set the **enable_cuda=false** to **enable_cuda=true**
-2. `ctrl x` to save and exit
-3. `./run.sh` to run simple tracker
+1. `./run.sh` to run simple tracker
 
 To exit the container type `exit`
 

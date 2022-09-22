@@ -11,7 +11,7 @@
 # 2. then run xhost +
 # NOTE: You will need the nvidia docker runtime installed in order to run simple tracker with cuda enabled, I have added some links above for this
 
-FROM sky360/opencv4-cuda:4.6.0
+FROM sky360/bgslibrary-cuda:opencv4.6.0
 
 WORKDIR /opt
 
@@ -19,3 +19,5 @@ RUN git clone --recursive https://github.com/Sky360-Repository/simpletracker.git
 
 WORKDIR /opt/simpletracker
 RUN pip install dynaconf
+
+RUN sed -i -- 's/enable_cuda=false/enable_cuda=true/g' settings.toml
