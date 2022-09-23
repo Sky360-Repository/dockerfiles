@@ -5,7 +5,7 @@ FROM sky360/opencv4:4.6.0
 
 WORKDIR /opt
 
-RUN git clone --recursive https://github.com/andrewssobral/bgslibrary.git
+RUN git clone --recursive https://github.com/Sky360-Repository/bgslibrary.git
 
 # Compile C++ library
 WORKDIR /opt/bgslibrary/build
