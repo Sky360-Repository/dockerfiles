@@ -59,8 +59,18 @@ Running the CUDA container
 
 When inside the container run simple tracker using the command below:
 
-1. `./run.sh` to run simple tracker
+1. To run Simple Tracker
+
+* `./run.sh`
+
+2. To run through the new Background Subtractors
+
+* `$ cd ../bgslibrary`
+
+* `$ python ./demo2.py`
+
 
 To exit the container type `exit`
 
 Best of luck!
+
