@@ -6,27 +6,27 @@ If you would like to build the cuda images you will need to have a NVIDIA graphi
 
 ### base
 
-`$ docker build -f Dockerfile . -t sky360/opencv4:base`
+`$ docker build --no-cache -f Dockerfile . -t sky360/opencv4:base`
 
-`$ docker build -f Dockerfile-cuda . -t sky360/opencv4-cuda:base`
+`$ docker build --no-cache -f Dockerfile-cuda . -t sky360/opencv4-cuda:base`
 
 ### opencv4.6.0
 
-`$ docker build -f Dockerfile . -t sky360/opencv4:4.6.0`
+`$ docker build --no-cache -f Dockerfile . -t sky360/opencv4:4.6.0`
 
-`$ docker build -f Dockerfile-cuda . -t sky360/opencv4-cuda:4.6.0`
+`$ docker build --no-cache -f Dockerfile-cuda . -t sky360/opencv4-cuda:4.6.0`
 
 ### BGSLibrary
 
-`$ docker build -f Dockerfile . -t sky360/bgslibrary:opencv4.6.0`
+`$ docker build --no-cache -f Dockerfile . -t sky360/bgslibrary:opencv4.6.0`
 
-`$ docker build -f Dockerfile-cuda . -t sky360/bgslibrary-cuda:opencv4.6.0`
+`$ docker build --no-cache -f Dockerfile-cuda . -t sky360/bgslibrary-cuda:opencv4.6.0`
 
 ### simple tracker
 
-`$ docker build -f Dockerfile . -t sky360/simpletracker:1.0.0`
+`$ docker build --no-cache -f Dockerfile . -t sky360/simpletracker:1.0.0`
 
-`$ docker build -f Dockerfile-cuda . -t sky360/simpletracker-cuda:1.0.0`
+`$ docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda:1.0.0`
 
 ## Running
 

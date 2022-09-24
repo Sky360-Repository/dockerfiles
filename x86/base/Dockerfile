@@ -1,4 +1,4 @@
-# docker build -f Dockerfile . -t sky360/opencv4:base
+# docker build --no-cache -f Dockerfile . -t sky360/opencv4:base
 
 FROM ubuntu:22.04
 

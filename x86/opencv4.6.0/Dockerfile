@@ -1,4 +1,4 @@
-# docker build -f Dockerfile . -t sky360/opencv4:4.6.0
+# docker build --no-cache -f Dockerfile . -t sky360/opencv4:4.6.0
 
 FROM sky360/opencv4:base
 

@@ -1,4 +1,4 @@
-# docker build -f Dockerfile-cuda . -t sky360/simpletracker-cuda:1.0.0
+# docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda:1.0.0
 # https://medium.com/ava-information/enabling-gpus-with-nvidia-docker-container-runtime-b4619d9173f5
 # https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-22-04
 # https://stackoverflow.com/questions/25185405/using-gpu-from-a-docker-container

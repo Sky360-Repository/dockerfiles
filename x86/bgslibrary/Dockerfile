@@ -1,4 +1,4 @@
-# docker build -f Dockerfile . -t sky360/bgslibrary:opencv4.6.0
+# docker build --no-cache -f Dockerfile . -t sky360/bgslibrary:opencv4.6.0
 # docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/bgslibrary:opencv4.6.0 bash
 
 FROM sky360/opencv4:4.6.0
