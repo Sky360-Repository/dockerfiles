@@ -34,7 +34,7 @@ If you would like to build the cuda images you will need to have a NVIDIA graphi
 
 `$ xhost +`
 
-`$ docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.0 bash`
+`$ docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.0 bash`
 
 When inside the container run simple tracker using the command below:
 
@@ -55,7 +55,7 @@ Running the CUDA container
 
 `$ xhost +`
 
-`$ docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-cuda:1.0.0 bash`
+`$ docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker-cuda:1.0.0 bash`
 
 When inside the container run simple tracker using the command below:
 
