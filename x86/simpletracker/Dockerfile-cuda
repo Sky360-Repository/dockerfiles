@@ -12,6 +12,10 @@
 # NOTE: You will need the nvidia docker runtime installed in order to run simple tracker with cuda enabled, I have added some links above for this
 
 FROM sky360/bgslibrary-cuda:opencv4.6.0
+#FROM sky360/ros2-humble-cuda:1.0.0
+
+RUN apt-get update && apt-get install -y \
+  python3-pip
 
 WORKDIR /opt
 
