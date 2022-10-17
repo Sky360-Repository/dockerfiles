@@ -1,7 +1,5 @@
 ## If you would like to build the docker containers here are the commands
 
-If you would like to build the cuda images you will need to have a NVIDIA graphics card as well as the NVIDIA CUDA Toolkit and the NVIDIA CUDA Deep Neural Network library (cuDNN) installed. I have used [this artickle](https://medium.com/@juancrrn/installing-cuda-and-cudnn-in-ubuntu-20-04-for-deep-learning-dad8841714d6) in the past as a reference.
-
 ## Building
 
 ### base
@@ -39,6 +37,10 @@ If you would like to build the cuda images you will need to have a NVIDIA graphi
 When inside the container run simple tracker using the command below:
 
 1. `./run.sh` to run simple tracker
+
+**NOTE** If you want to use a USB type camera, you will need to expose the device to the container, below is an example
+
+`$ docker run -it --rm --device=/dev/video0:/dev/video0 -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.0 bash`
 
 **NOTE** For the CUDA version there is more work to do. You will need to install the nvidia docker container runtime
 
