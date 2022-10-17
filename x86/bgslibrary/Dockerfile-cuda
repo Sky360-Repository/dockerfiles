@@ -1,5 +1,5 @@
 # docker build --no-cache -f Dockerfile-cuda . -t sky360/bgslibrary-cuda:opencv4.6.0
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/bgslibrary-cuda:opencv4.6.0 bash
+# docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/bgslibrary-cuda:opencv4.6.0 bash
 
 FROM sky360/opencv4-cuda:4.6.0
 

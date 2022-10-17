@@ -1,5 +1,5 @@
-# docker build --no-cache -f Dockerfile . -t sky360/ros2-humble:1.0.0
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble:1.0.0 bash
+# docker build --no-cache -f Dockerfile . -t sky360/ros2-humble:opencv4.6.0
+# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble:opencv4.6.0 bash
 
 ##############################################
 # Copied from https://github.com/athackst/dockerfiles/tree/main/ros2 but using sky360 image as base
