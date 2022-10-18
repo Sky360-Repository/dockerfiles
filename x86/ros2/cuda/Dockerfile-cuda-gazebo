@@ -1,15 +1,15 @@
-# docker build --no-cache -f Dockerfile-gazebo . -t sky360/ros2-humble-gazebo:opencv4.6.0
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-gazebo:opencv4.6.0 bash
+# docker build --no-cache -f Dockerfile-cuda-gazebo . -t sky360/ros2-humble-cuda-gazebo:opencv4.6.0
+# docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-cuda-gazebo:opencv4.6.0 bash
 
 ##############################################
 # Copied from https://github.com/athackst/dockerfiles/tree/main/ros2 but using sky360 image as base
 ##############################################
 
 ###########################################
-#  Full+Gazebo image 
+#  Full+Gazebo CUDA image 
 ###########################################
 
-FROM sky360/ros2-humble-full:opencv4.6.0
+FROM sky360/ros2-humble-cuda-full:opencv4.6.0
 
 ENV DEBIAN_FRONTEND=noninteractive
 # Install gazebo

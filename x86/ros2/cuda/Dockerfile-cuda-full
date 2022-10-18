@@ -1,15 +1,15 @@
-# docker build --no-cache -f Dockerfile-full . -t sky360/ros2-humble-full:opencv4.6.0
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-full:opencv4.6.0 bash
+# docker build --no-cache -f Dockerfile-cuda-full . -t sky360/ros2-humble-cuda-full:opencv4.6.0
+# docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-cuda-full:opencv4.6.0 bash
 
 ##############################################
 # Copied from https://github.com/athackst/dockerfiles/tree/main/ros2 but using sky360 image as base
 ##############################################
 
 ###########################################
-#  Full image 
+#  Full CUDA image 
 ###########################################
 
-FROM sky360/ros2-humble-dev:opencv4.6.0
+FROM sky360/ros2-humble-cuda-dev:opencv4.6.0
 
 ENV DEBIAN_FRONTEND=noninteractive
 # Install the full release

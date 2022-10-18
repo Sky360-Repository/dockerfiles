@@ -6,8 +6,9 @@
 ##############################################
 
 ###########################################
-#  Develop image 
+#  Develop CUDA image 
 ###########################################
+
 FROM sky360/ros2-humble-cuda-base:opencv4.6.0
 
 ENV DEBIAN_FRONTEND=noninteractive

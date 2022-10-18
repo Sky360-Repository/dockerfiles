@@ -6,8 +6,9 @@
 ##############################################
 
 ###########################################
-# Base image 
+# Base CUDA image 
 ###########################################
+
 FROM sky360/bgslibrary-cuda:opencv4.6.0
 
 ENV DEBIAN_FRONTEND=noninteractive
