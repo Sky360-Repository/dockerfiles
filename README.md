@@ -26,7 +26,13 @@
 
 `$ docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda:1.0.0`
 
-## Running
+### simple tracker ros2
+
+`$ docker build --no-cache -f Dockerfile . -t sky360/simpletracker-ros2:1.0.0`
+
+`$ docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda-ros2:1.0.0`
+
+## Running simple tracker
 
 `$ export DISPLAY=:0`
 
@@ -75,13 +81,7 @@ When inside the container run simple tracker using the command below:
 To exit the container type `exit`
 
 
-### simple tracker ros2
-
-`$ docker build --no-cache -f Dockerfile . -t sky360/simpletracker-ros2:1.0.0`
-
-`$ docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda-ros2:1.0.0`
-
-## Running
+## Running simple tracker ros2
 
 `$ export DISPLAY=:0`
 
