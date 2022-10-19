@@ -94,7 +94,7 @@ When inside the container run simple tracker using the command below:
 1. `source /root/.bashrc` to source the ros2 install
 2. `./setup.sh` to setup and run the simple tracker ros2
 
-**NOTE** if you see the following error: "/usr/bin/python3.10: No module named rosidl_adapter" in red, then run the following commands: 
+**NOTE** if you see the following error: `/usr/bin/python3.10: No module named rosidl_adapter` in red, then run the following commands: 
 
 1. `source /root/.bashrc` to source the ros2 install
 2. `./build.sh` to setup and run the simple tracker ros2
@@ -121,11 +121,19 @@ When inside the container run simple tracker using the command below:
 1. `source /root/.bashrc` to source the ros2 install
 2. `./setup.sh` to setup and run the simple tracker ros2
 
-**NOTE** if you see the following error: "/usr/bin/python3.10: No module named rosidl_adapter" in red, then run the following commands: 
+**NOTE** if you see the following error: `/usr/bin/python3.10: No module named rosidl_adapter` in red, then run the following commands: 
 
 1. `source /root/.bashrc` to source the ros2 install
 2. `./build.sh` to setup and run the simple tracker ros2
 
+The video will run in a continous loop, so the only way to stop it is by using the command below.
+
+To stop the program type CTRL+C in the docker terminal window. This should shutdown the application.
+
 To exit the container type `exit`
+
+Please remember that these containers don't store state, so if you want to run it again you will need to perform the steps again.
+
+There will be a number of windows that spawn once the program runs, they are all the topics currently available. Let MikeG know if there are too many and he can tweak the docker build script.
 
 Best of luck!
