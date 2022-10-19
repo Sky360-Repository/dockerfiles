@@ -96,8 +96,6 @@ When inside the container run simple tracker using the command below:
 
 **NOTE** if you see the following error: "/usr/bin/python3.10: No module named rosidl_adapter" in red, then run the following commands: 
 
-Then run the following:
-
 1. `source /root/.bashrc` to source the ros2 install
 2. `./build.sh` to setup and run the simple tracker ros2
 
@@ -124,8 +122,6 @@ When inside the container run simple tracker using the command below:
 2. `./setup.sh` to setup and run the simple tracker ros2
 
 **NOTE** if you see the following error: "/usr/bin/python3.10: No module named rosidl_adapter" in red, then run the following commands: 
-
-Then run the following:
 
 1. `source /root/.bashrc` to source the ros2 install
 2. `./build.sh` to setup and run the simple tracker ros2
