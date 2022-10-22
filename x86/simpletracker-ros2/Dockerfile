@@ -43,4 +43,4 @@ RUN git clone --recursive https://github.com/Sky360-Repository/simpletracker-ros
 
 WORKDIR /opt/simpletracker-ros2-ws
 
-RUN sed -i -- "s/#('sky360/('sky360/g" ./src/simple_tracker_launch/launch/simple_tracker_launch.py
+#RUN sed -i -- "s/#('sky360/('sky360/g" ./src/simple_tracker_launch/launch/simple_tracker_launch.py
