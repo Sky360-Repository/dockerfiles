@@ -4,28 +4,46 @@
 FROM sky360/opencv4:4.6.0
 
 # Install Cuda
-WORKDIR /opt
+# WORKDIR /opt
 
-RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.0-1_all.deb
-RUN dpkg -i cuda-keyring_1.0-1_all.deb
+# RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.0-1_all.deb
+# RUN dpkg -i cuda-keyring_1.0-1_all.deb
 RUN apt update
-RUN apt -y install cuda
-RUN rm cuda-keyring_1.0-1_all.deb
-ENV PATH=$PATH:/usr/local/cuda:/usr/local/cuda/bin
-ENV CUDA_PATH=/usr/local/cuda
+RUN apt upgrade -y
+# RUN apt -y install cuda
+# RUN rm cuda-keyring_1.0-1_all.deb
+# ENV PATH=$PATH:/usr/local/cuda:/usr/local/cuda/bin
+# ENV CUDA_PATH=/usr/local/cuda
+
+# Install OpenCL
+WORKDIR /opt
+RUN apt -y install mesa-utils mesa-common-dev libao-dev freeglut3-dev libglew-dev libglfw3-dev libglm-dev libmpg123-dev
+RUN git clone --recursive https://github.com/KhronosGroup/OpenCL-SDK.git
+WORKDIR /opt/OpenCL-SDK/build
+RUN cmake .. -DOpenGL_GL_PREFERENCE=GLVND
+RUN cmake --build . --target install -j$(nproc)
 
 # Install Halide
+WORKDIR /opt
 RUN wget https://github.com/halide/Halide/releases/download/v14.0.0/Halide-14.0.0-x86-64-linux-6b9ed2afd1d6d0badf04986602c943e287d44e46.tar.gz
 RUN tar -xf Halide-14.0.0-x86-64-linux-6b9ed2afd1d6d0badf04986602c943e287d44e46.tar.gz
 RUN rm Halide-14.0.0-x86-64-linux-6b9ed2afd1d6d0badf04986602c943e287d44e46.tar.gz
 ENV Halide_DIR=/opt/Halide-14.0.0-x86-64-linux/
 ENV HalideHelpers_DIR=/opt/Halide-14.0.0-x86-64-linux/
 
-# Install sky360lib
-RUN git clone --recursive https://github.com/Sky360-Repository/sky360lib.git
+# Install Easy Profiler
+WORKDIR /opt
+RUN wget https://github.com/yse/easy_profiler/releases/download/v2.1.0/easy_profiler_core-v2.1.0-linux-x64-libc-2.27.tar.gz
+RUN mkdir easy_profiler
+RUN tar -xf easy_profiler_core-v2.1.0-linux-x64-libc-2.27.tar.gz -C easy_profiler
+RUN rm easy_profiler_core-v2.1.0-linux-x64-libc-2.27.tar.gz
+RUN cp easy_profiler/bin/*.so easy_profiler/lib
 
+# Install sky360lib
+WORKDIR /opt
+RUN git clone --recursive https://github.com/Sky360-Repository/sky360lib.git
 WORKDIR /opt/sky360lib/build
-RUN cmake .. 
+RUN cmake .. -DCMAKE_PREFIX_PATH=/opt/easy_profiler/lib/cmake/easy_profiler
 RUN cmake --build . -j$(nproc)
 ENV PYTHONPATH=$PYTHONPATH:/opt/sky360lib/build/lib
 
