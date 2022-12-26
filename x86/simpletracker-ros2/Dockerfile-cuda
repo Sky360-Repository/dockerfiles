@@ -22,7 +22,7 @@
 # ./build.sh
 
 
-FROM sky360/ros2-humble-cuda-dev:opencv4.6.0
+FROM sky360/ros2-humble-cuda-dev:1.0.1
 
 # ** [Optional] Uncomment this section to install additional packages. **
 

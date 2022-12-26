@@ -1,7 +1,7 @@
 # docker build --no-cache -f Dockerfile-cuda . -t sky360/sky360lib-cuda:1.0.0
 # docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/sky360lib-cuda:1.0.0 bash
 
-FROM sky360/bgslibrary-cuda:opencv4.6.0
+FROM sky360/bgslibrary-cuda:1.0.0
 
 # Install Cuda
 # WORKDIR /opt

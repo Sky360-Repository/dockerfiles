@@ -18,7 +18,7 @@
 # source /root/.bashrc
 # ./build.sh
 
-FROM sky360/ros2-humble-dev:opencv4.6.0
+FROM sky360/ros2-humble-dev:1.0.1
 
 # ** [Optional] Uncomment this section to install additional packages. **
 
