@@ -16,9 +16,9 @@
 
 ### BGSLibrary
 
-`$ docker build --no-cache -f Dockerfile . -t sky360/bgslibrary:opencv4.6.0`
+`$ docker build --no-cache -f Dockerfile . -t sky360/bgslibrary:1.0.0`
 
-`$ docker build --no-cache -f Dockerfile-cuda . -t sky360/bgslibrary-cuda:opencv4.6.0`
+`$ docker build --no-cache -f Dockerfile-cuda . -t sky360/bgslibrary-cuda:1.0.0`
 
 ### sky360Lib
 
