@@ -4,47 +4,47 @@
 
 ### base
 
-`$ docker build --no-cache -f Dockerfile . -t sky360/opencv4:base`
+`docker build --no-cache -f Dockerfile . -t sky360/opencv4:base`
 
-`$ docker build --no-cache -f Dockerfile-cuda . -t sky360/opencv4-cuda:base`
+`docker build --no-cache -f Dockerfile-cuda . -t sky360/opencv4-cuda:base`
 
 ### opencv4.6.0
 
-`$ docker build --no-cache -f Dockerfile . -t sky360/opencv4:4.6.0`
+`docker build --no-cache -f Dockerfile . -t sky360/opencv4:4.6.0`
 
-`$ docker build --no-cache -f Dockerfile-cuda . -t sky360/opencv4-cuda:4.6.0`
+`docker build --no-cache -f Dockerfile-cuda . -t sky360/opencv4-cuda:4.6.0`
 
 ### BGSLibrary
 
-`$ docker build --no-cache -f Dockerfile . -t sky360/bgslibrary:1.0.0`
+`docker build --no-cache -f Dockerfile . -t sky360/bgslibrary:1.0.0`
 
-`$ docker build --no-cache -f Dockerfile-cuda . -t sky360/bgslibrary-cuda:1.0.0`
+`docker build --no-cache -f Dockerfile-cuda . -t sky360/bgslibrary-cuda:1.0.0`
 
 ### sky360Lib
 
-`$ docker build --no-cache -f Dockerfile . -t sky360/sky360lib:1.0.0`
+`docker build --no-cache -f Dockerfile . -t sky360/sky360lib:1.0.0`
 
-`$ docker build --no-cache -f Dockerfile-cuda . -t sky360/sky360lib-cuda:1.0.0`
+`docker build --no-cache -f Dockerfile-cuda . -t sky360/sky360lib-cuda:1.0.0`
 
 ### simple tracker
 
-`$ docker build --no-cache -f Dockerfile . -t sky360/simpletracker:1.0.1`
+`docker build --no-cache -f Dockerfile . -t sky360/simpletracker:1.0.1`
 
-`$ docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda:1.0.1`
+`docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda:1.0.1`
 
 ### simple tracker ros2
 
-`$ docker build --no-cache -f Dockerfile . -t sky360/simpletracker-ros2:1.0.1`
+`docker build --no-cache -f Dockerfile . -t sky360/simpletracker-ros2:1.0.1`
 
-`$ docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda-ros2:1.0.1`
+`docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda-ros2:1.0.1`
 
 ## Running simple tracker
 
-`$ export DISPLAY=:0`
+`export DISPLAY=:0`
 
-`$ xhost +`
+`xhost +`
 
-`$ docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.1 bash`
+`docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.1 bash`
 
 When inside the container run simple tracker using the command below:
 
@@ -52,7 +52,7 @@ When inside the container run simple tracker using the command below:
 
 **NOTE** If you want to use a USB type camera, you will need to expose the device to the container, below is an example
 
-`$ docker run -it --rm --device=/dev/video0:/dev/video0 -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.1 bash`
+`docker run -it --rm --device=/dev/video0:/dev/video0 -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.1 bash`
 
 **NOTE** For the CUDA version there is more work to do. You will need to install the nvidia docker container runtime
 
@@ -65,11 +65,11 @@ Remember to restart docker once you have installed the above using: `sudo system
 
 Running the CUDA container
 
-`$ export DISPLAY=:0`
+`export DISPLAY=:0`
 
-`$ xhost +`
+`xhost +`
 
-`$ docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker-cuda:1.0.1 bash`
+`docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker-cuda:1.0.1 bash`
 
 When inside the container run simple tracker using the command below:
 
@@ -79,9 +79,9 @@ When inside the container run simple tracker using the command below:
 
 2. To run through the new Background Subtractors
 
-* `$ cd ../bgslibrary`
+* `cd ../bgslibrary`
 
-* `$ python ./demo2.py`
+* `python ./demo2.py`
 
 
 To exit the container type `exit`
@@ -89,17 +89,16 @@ To exit the container type `exit`
 
 ## Running simple tracker ros2
 
-`$ export DISPLAY=:0`
+`export DISPLAY=:0`
 
-`$ xhost +`
+`xhost +`
 
-`$ docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-ros2:1.0.1 bash`
+`docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-ros2:1.0.1 bash`
 
 When inside the container run simple tracker using the command below:
 
-1. `source /root/.bashrc` to source the ros2 install
-2. `./setup.sh` to setup dependencies for simple tracker ros2
-3. `./build.sh` to build simple tracker ros2
+1. `./setup.sh` to setup dependencies for simple tracker ros2
+2. `./build.sh` to build simple tracker ros2
 
 **NOTE** if you see the following error: `/usr/bin/python3.10: No module named rosidl_adapter` in red, then rerun the following commands: 
 
@@ -108,7 +107,7 @@ When inside the container run simple tracker using the command below:
 
 Finally, launch the application using:
 
-4. `./launch.sh` to launch simple tracker ros2
+3. `./launch.sh` to launch simple tracker ros2
 
 **NOTE** For the CUDA version there is more work to do. You will need to install the nvidia docker container runtime
 
@@ -121,17 +120,16 @@ Remember to restart docker once you have installed the above using: `sudo system
 
 Running the CUDA container
 
-`$ export DISPLAY=:0`
+`export DISPLAY=:0`
 
-`$ xhost +`
+`xhost +`
 
-`$ docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-cuda-ros2:1.0.1 bash`
+`docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-cuda-ros2:1.0.1 bash`
 
 When inside the container run simple tracker using the command below:
 
-1. `source /root/.bashrc` to source the ros2 install
-2. `./setup.sh` to setup dependencies for simple tracker ros2
-3. `./build.sh` to build simple tracker ros2
+1. `./setup.sh` to setup dependencies for simple tracker ros2
+2. `./build.sh` to build simple tracker ros2
 
 **NOTE** if you see the following error: `/usr/bin/python3.10: No module named rosidl_adapter` in red, then rerun the following commands: 
 
@@ -140,7 +138,7 @@ When inside the container run simple tracker using the command below:
 
 Finally, launch the application using:
 
-4. `./launch.sh` to launch simple tracker ros2
+3. `./launch.sh` to launch simple tracker ros2
 
 The video will run in a continous loop, so the only way to stop it is by using the command below.
 
