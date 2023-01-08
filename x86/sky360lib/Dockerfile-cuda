@@ -1,5 +1,8 @@
-# docker build --no-cache -f Dockerfile-cuda . -t sky360/sky360lib-cuda:1.0.0
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/sky360lib-cuda:1.0.0 bash
+# v 1.0.0 - Base install with updated and improved WeightedMovingVariance algo
+# v 1.0.1 - Now includes new Sky360 blob detection algo
+
+# docker build --no-cache -f Dockerfile-cuda . -t sky360/sky360lib-cuda:1.0.1
+# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/sky360lib-cuda:1.0.1 bash
 
 FROM sky360/bgslibrary-cuda:1.0.0
 
