@@ -22,15 +22,15 @@
 
 ### sky360Lib
 
-`docker build --no-cache -f Dockerfile . -t sky360/sky360lib:1.0.0`
+`docker build --no-cache -f Dockerfile . -t sky360/sky360lib:1.0.1`
 
-`docker build --no-cache -f Dockerfile-cuda . -t sky360/sky360lib-cuda:1.0.0`
+`docker build --no-cache -f Dockerfile-cuda . -t sky360/sky360lib-cuda:1.0.1`
 
 ### simple tracker
 
-`docker build --no-cache -f Dockerfile . -t sky360/simpletracker:1.0.1`
+`docker build --no-cache -f Dockerfile . -t sky360/simpletracker:1.0.2`
 
-`docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda:1.0.1`
+`docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda:1.0.2`
 
 ### simple tracker ros2
 
@@ -44,7 +44,7 @@
 
 `xhost +`
 
-`docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.1 bash`
+`docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.2 bash`
 
 When inside the container run simple tracker using the command below:
 
@@ -52,7 +52,7 @@ When inside the container run simple tracker using the command below:
 
 **NOTE** If you want to use a USB type camera, you will need to expose the device to the container, below is an example
 
-`docker run -it --rm --device=/dev/video0:/dev/video0 -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.1 bash`
+`docker run -it --rm --device=/dev/video0:/dev/video0 -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.2 bash`
 
 **NOTE** For the CUDA version there is more work to do. You will need to install the nvidia docker container runtime
 
@@ -69,7 +69,7 @@ Running the CUDA container
 
 `xhost +`
 
-`docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker-cuda:1.0.1 bash`
+`docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker-cuda:1.0.2 bash`
 
 When inside the container run simple tracker using the command below:
 

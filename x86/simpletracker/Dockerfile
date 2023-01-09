@@ -1,5 +1,9 @@
-# docker build --no-cache -f Dockerfile . -t sky360/simpletracker:1.0.1
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.1 bash
+# v 1.0.0 - Base install
+# v 1.0.1 - Now includes updated and improved WeightedMovingVariance algo
+# v 1.0.2 - Now includes new Sky360 blob detection algo
+
+# docker build --no-cache -f Dockerfile . -t sky360/simpletracker:1.0.2
+# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.2 bash
 
 # if you get an error similar to this: 
 #    error: (-2:Unspecified error) Can’t initialize GTK backend in function
@@ -10,8 +14,7 @@
 # ./run.sh
 
 
-FROM sky360/sky360lib:1.0.0
-#FROM sky360/ros2-humble:1.0.0
+FROM sky360/sky360lib:1.0.1
 
 RUN apt-get update && apt-get install -y \
   python3-pip
