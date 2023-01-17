@@ -1,5 +1,9 @@
-# docker build --no-cache -f Dockerfile.dl-base . -t sky360/dl-base:1.0.0
+# docker build --no-cache -f Dockerfile.dl-base . -t sky360/dl-base:1.0.0 --> FROM nvcr.io/nvidia/pytorch:22.04-py3
+# docker build --no-cache -f Dockerfile.dl-base . -t sky360/dl-base:1.0.1 --> FROM nvcr.io/nvidia/pytorch:22.12-py3
 
+# docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix sky360/ji:1.0.1 bash
+
+#FROM nvcr.io/nvidia/pytorch:22.12-py3
 FROM nvcr.io/nvidia/pytorch:22.04-py3
 
 WORKDIR /tmp
@@ -52,6 +56,7 @@ RUN apt-get install -y libboost-all-dev
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN python3 get-pip.py
 
+# Already exists in nvcr.io/nvidia/pytorch:22.12-py3
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
 # Build and Install OpenCV
@@ -78,6 +83,7 @@ RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D WITH_LIBV4L=ON \
       -D WITH_QT=ON \
       -D WITH_OPENGL=ON \
+      -D WITH_OPENCL=ON \
       -D WITH_JAVA=OFF \
       -D WITH_CUDA=ON \
       -D WITH_CUDNN=ON \
@@ -102,7 +108,7 @@ RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D BUILD_EXAMPLES=OFF \
       -D INSTALL_C_EXAMPLES=OFF \
       -D OPENCV_DNN_CUDA=ON \
-      -D OPENCV_ENABLE_NONFREE=ON \
+      -D OPENCV_ENABLE_NONFREE=ON \      
       -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-$OPENCV_VERSION/modules \
       ../
 
