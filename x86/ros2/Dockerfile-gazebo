@@ -1,5 +1,9 @@
-# docker build --no-cache -f Dockerfile-gazebo . -t sky360/ros2-humble-gazebo:1.0.1
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-gazebo:1.0.1 bash
+# v 1.0.0 - Base install
+# v 1.0.1 - Changed the base conatiner to be Sky360Lib
+# v 1.0.2 - Sky360Lib includes support for WMV bgs, blob detector and qhy cameras. The sky360 bgs and blod algos have speed improvements
+
+# docker build --no-cache -f Dockerfile-gazebo . -t sky360/ros2-humble-gazebo:1.0.2
+# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-gazebo:1.0.2 bash
 
 ##############################################
 # Copied from https://github.com/athackst/dockerfiles/tree/main/ros2 but using sky360 image as base
@@ -9,7 +13,7 @@
 #  Full+Gazebo image 
 ###########################################
 
-FROM sky360/ros2-humble-full:1.0.1
+FROM sky360/ros2-humble-full:1.0.2
 
 ENV DEBIAN_FRONTEND=noninteractive
 # Install gazebo
