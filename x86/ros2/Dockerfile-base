@@ -1,11 +1,12 @@
 # v 1.0.0 - Base install
 # v 1.0.1 - Changed the base conatiner to be Sky360Lib
 # v 1.0.2 - Sky360Lib includes support for WMV bgs, blob detector and qhy cameras. The sky360 bgs and blod algos have speed improvements
+# v 1.0.3 - Includes Vulcanexus install for prometheus exports and eProsima / prometheus-cpp build
 
-# docker build --no-cache -f Dockerfile-base . -t sky360/ros2-humble-base:1.0.2
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-base:1.0.2 bash
+# docker build --no-cache -f Dockerfile-base . -t sky360/ros2-humble-base:1.0.3
+# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-base:1.0.3 bash
 
-# docker push sky360/ros2-humble-base:1.0.2 && docker push sky360/ros2-humble-dev:1.0.2 && docker push sky360/ros2-humble-full:1.0.2 && docker push sky360/ros2-humble-gazebo:1.0.2 && docker push sky360/ros2-humble-nvidia:1.0.2
+# docker push sky360/ros2-humble-base:1.0.3 && docker push sky360/ros2-humble-dev:1.0.3 && docker push sky360/ros2-humble-full:1.0.3 && docker push sky360/ros2-humble-gazebo:1.0.3 && docker push sky360/ros2-humble-nvidia:1.0.3
 
 ##############################################
 # Copied from https://github.com/athackst/dockerfiles/tree/main/ros2 but using sky360 image as base
@@ -47,6 +48,29 @@ RUN apt-get update && apt-get install -y \
     ros-humble-ros-base \
     python3-argcomplete \
   && rm -rf /var/lib/apt/lists/*
+
+## BEGIN Prometheus Stuff
+
+# Install Vulcanexus
+RUN curl -sSL https://raw.githubusercontent.com/eProsima/vulcanexus/main/vulcanexus.key -o /usr/share/keyrings/vulcanexus-archive-keyring.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/vulcanexus-archive-keyring.gpg] http://repo.vulcanexus.org/debian $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/vulcanexus.list > /dev/null \
+  && apt-get update && apt-get install -y \
+    vulcanexus-humble-base \
+  && rm -rf /var/lib/apt/lists/*
+
+# Build eProsima / prometheus-cpp --> https://github.com/eProsima/prometheus-cpp/
+WORKDIR /tmp
+RUN git clone https://github.com/eProsima/prometheus-cpp.git
+WORKDIR /tmp/prometheus-cpp
+RUN git submodule init && git submodule update && mkdir build
+WORKDIR /tmp/prometheus-cpp/build
+RUN cmake .. -DBUILD_SHARED_LIBS=ON -DENABLE_PUSH=OFF -DENABLE_COMPRESSION=OFF
+RUN cmake --build . --parallel 4
+RUN cmake --install .
+
+ENV FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;PUBLICATION_THROUGHPUT_TOPIC;PHYSICAL_DATA_TOPIC"
+
+## END Prometheus Stuff
 
 ENV ROS_DISTRO=humble
 ENV AMENT_PREFIX_PATH=/opt/ros/humble

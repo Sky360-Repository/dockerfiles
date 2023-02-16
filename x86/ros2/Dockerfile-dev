@@ -1,9 +1,10 @@
 # v 1.0.0 - Base install
 # v 1.0.1 - Changed the base conatiner to be Sky360Lib
 # v 1.0.2 - Sky360Lib includes support for WMV bgs, blob detector and qhy cameras. The sky360 bgs and blod algos have speed improvements
+# v 1.0.3 - Includes Vulcanexus install for prometheus exports and eProsima / prometheus-cpp build
 
-# docker build --no-cache -f Dockerfile-dev . -t sky360/ros2-humble-dev:1.0.2
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-dev:1.0.2 bash
+# docker build --no-cache -f Dockerfile-dev . -t sky360/ros2-humble-dev:1.0.3
+# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-dev:1.0.3 bash
 
 ##############################################
 # Copied from https://github.com/athackst/dockerfiles/tree/main/ros2 but using sky360 image as base
@@ -13,7 +14,7 @@
 #  Develop image 
 ###########################################
 
-FROM sky360/ros2-humble-base:1.0.2
+FROM sky360/ros2-humble-base:1.0.3
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
@@ -39,7 +40,7 @@ RUN apt-get update && apt-get install -y \
   && rm -rf /var/lib/apt/lists/* \
   && rosdep init || echo "rosdep already initialized" \
   # Update pydocstyle
-  && pip install --upgrade pydocstyle
+  && pip install --upgrade pydocstyle ephem
 
 ARG USERNAME=ros
 ARG USER_UID=1000
