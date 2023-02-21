@@ -1,6 +1,6 @@
 
-# docker build --no-cache -f Dockerfile . -t sky360/simpletracker-ros2:1.0.1
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-ros2:1.0.1 bash
+# docker build --no-cache -f Dockerfile . -t sky360/simpletracker-ros2:1.0.2
+# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-ros2:1.0.2 bash
 
 # if you get an error similar to this: 
 #    error: (-2:Unspecified error) Can’t initialize GTK backend in function
@@ -18,7 +18,7 @@
 # source /root/.bashrc
 # ./build.sh
 
-FROM sky360/ros2-humble-dev:1.0.1
+FROM sky360/ros2-humble-full:1.0.3
 
 # ** [Optional] Uncomment this section to install additional packages. **
 
@@ -35,13 +35,15 @@ RUN apt-get update \
 
 ENV DEBIAN_FRONTEND=dialog
 
-WORKDIR /opt
+WORKDIR /home/ros
 
-RUN echo "if [ -f /opt/simpletracker-ros2-ws/install/setup.bash ]; then source /opt/simpletracker-ros2-ws/install/setup.bash; fi" >> /root/.bashrc
+RUN echo "if [ -f /home/ros/simpletracker-ros2-ws/install/setup.bash ]; then source /home/ros/simpletracker-ros2-ws/install/setup.bash; fi" >> /home/ros/.bashrc
 
-RUN git clone --recursive https://github.com/Sky360-Repository/simpletracker-ros2-ws.git
+RUN git clone --branch monitoring --recursive https://github.com/Sky360-Repository/simpletracker-ros2-ws.git
 
-WORKDIR /opt/simpletracker-ros2-ws
+RUN chown -R ros:ros /home/ros/simpletracker-ros2-ws
+
+WORKDIR /home/ros/simpletracker-ros2-ws
 
 #RUN ./setup.sh
 #RUN source /root/.bashrc
