@@ -57,7 +57,25 @@ RUN groupadd --gid $USER_GID $USERNAME \
   # Cleanup
   && rm -rf /var/lib/apt/lists/* \
   && echo "source /usr/share/bash-completion/completions/git" >> /home/$USERNAME/.bashrc \
-  && echo "if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then source /opt/ros/${ROS_DISTRO}/setup.bash; fi" >> /home/$USERNAME/.bashrc
+  && echo "if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then source /opt/ros/${ROS_DISTRO}/setup.bash; fi" >> /home/$USERNAME/.bashrc \
+  && echo "if [ -f /opt/vulcanexus/${ROS_DISTRO}/setup.bash ]; then source /opt/vulcanexus/${ROS_DISTRO}/setup.bash; fi" >> /home/$USERNAME/.bashrc
+
+## BEGIN Prometheus Stuff
+
+WORKDIR /opt
+RUN git clone https://github.com/eProsima/Fast-DDS-statistics-backend.git
+WORKDIR /opt/Fast-DDS-statistics-backend/examples/cpp/ROS2Prometheus
+RUN mkdir build
+RUN chown -R $USERNAME:$USERNAME /opt/Fast-DDS-statistics-backend
+#WORKDIR /home/$USERNAME/Fast-DDS-statistics-backend/examples/cpp/ROS2Prometheus/build
+#ENV CMAKE_MODULE_PATH=/home/$USERNAME/Fast-DDS-statistics-backend;/opt/vulcanexus/humble/lib/cmake/fastdds_statistics_backend
+#RUN cmake .. && make
+
+ENV PATH="${PATH}:/opt/Fast-DDS-statistics-backend/examples/cpp/ROS2Prometheus/build/"
+
+ENV FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;PUBLICATION_THROUGHPUT_TOPIC;PHYSICAL_DATA_TOPIC"
+
+## END Prometheus Stuff
 
 ENV DEBIAN_FRONTEND=
 ENV AMENT_CPPCHECK_ALLOW_SLOW_VERSIONS=1
