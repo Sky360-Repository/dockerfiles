@@ -39,7 +39,7 @@ WORKDIR /home/ros
 
 RUN echo "if [ -f /home/ros/simpletracker-ros2-ws/install/setup.bash ]; then source /home/ros/simpletracker-ros2-ws/install/setup.bash; fi" >> /home/ros/.bashrc
 
-RUN git clone --branch monitoring --recursive https://github.com/Sky360-Repository/simpletracker-ros2-ws.git
+RUN git clone --recursive https://github.com/Sky360-Repository/simpletracker-ros2-ws.git
 
 RUN chown -R ros:ros /home/ros/simpletracker-ros2-ws
 
