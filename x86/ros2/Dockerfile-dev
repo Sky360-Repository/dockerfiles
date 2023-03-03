@@ -1,9 +1,10 @@
 # v 1.0.0 - Base install
 # v 1.0.1 - Changed the base conatiner to be Sky360Lib
 # v 1.0.2 - Sky360Lib includes support for WMV bgs, blob detector and qhy cameras. The sky360 bgs and blod algos have speed improvements
+# v 1.0.3 - Includes Vulcanexus install for prometheus exports and eProsima / prometheus-cpp build
 
-# docker build --no-cache -f Dockerfile-dev . -t sky360/ros2-humble-dev:1.0.2
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-dev:1.0.2 bash
+# docker build --no-cache -f Dockerfile-dev . -t sky360/ros2-humble-dev:1.0.3
+# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-dev:1.0.3 bash
 
 ##############################################
 # Copied from https://github.com/athackst/dockerfiles/tree/main/ros2 but using sky360 image as base
@@ -13,7 +14,7 @@
 #  Develop image 
 ###########################################
 
-FROM sky360/ros2-humble-base:1.0.2
+FROM sky360/ros2-humble-base:1.0.3
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
@@ -39,7 +40,7 @@ RUN apt-get update && apt-get install -y \
   && rm -rf /var/lib/apt/lists/* \
   && rosdep init || echo "rosdep already initialized" \
   # Update pydocstyle
-  && pip install --upgrade pydocstyle
+  && pip install --upgrade pydocstyle ephem tornado simplejpeg
 
 ARG USERNAME=ros
 ARG USER_UID=1000
@@ -56,7 +57,22 @@ RUN groupadd --gid $USER_GID $USERNAME \
   # Cleanup
   && rm -rf /var/lib/apt/lists/* \
   && echo "source /usr/share/bash-completion/completions/git" >> /home/$USERNAME/.bashrc \
-  && echo "if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then source /opt/ros/${ROS_DISTRO}/setup.bash; fi" >> /home/$USERNAME/.bashrc
+  && echo "if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then source /opt/ros/${ROS_DISTRO}/setup.bash; fi" >> /home/$USERNAME/.bashrc \
+  && echo "if [ -f /opt/vulcanexus/${ROS_DISTRO}/setup.bash ]; then source /opt/vulcanexus/${ROS_DISTRO}/setup.bash; fi" >> /home/$USERNAME/.bashrc
+
+## BEGIN Prometheus Stuff
+
+WORKDIR /opt
+RUN git clone https://github.com/eProsima/Fast-DDS-statistics-backend.git
+WORKDIR /opt/Fast-DDS-statistics-backend/examples/cpp/ROS2Prometheus
+RUN mkdir build
+RUN chown -R $USERNAME:$USERNAME /opt/Fast-DDS-statistics-backend
+
+ENV PATH="${PATH}:/opt/Fast-DDS-statistics-backend/examples/cpp/ROS2Prometheus/build/"
+ENV FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;PUBLICATION_THROUGHPUT_TOPIC;PHYSICAL_DATA_TOPIC"
+#ENV FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;NETWORK_LATENCY_TOPIC;PUBLICATION_THROUGHPUT_TOPIC;SUBSCRIPTION_THROUGHPUT_TOPIC;RTPS_SENT_TOPIC;RTPS_LOST_TOPIC;HEARTBEAT_COUNT_TOPIC;ACKNACK_COUNT_TOPIC;NACKFRAG_COUNT_TOPIC;GAP_COUNT_TOPIC;DATA_COUNT_TOPIC;RESENT_DATAS_TOPIC;SAMPLE_DATAS_TOPIC;PDP_PACKETS_TOPIC;EDP_PACKETS_TOPIC;DISCOVERY_TOPIC;PHYSICAL_DATA_TOPIC"
+
+## END Prometheus Stuff
 
 ENV DEBIAN_FRONTEND=
 ENV AMENT_CPPCHECK_ALLOW_SLOW_VERSIONS=1
