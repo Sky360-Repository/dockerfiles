@@ -2,12 +2,13 @@
 # v 1.0.1 - Now includes updated and improved WeightedMovingVariance algo
 # v 1.0.2 - Now includes new Sky360 blob detection algo
 # v 1.0.3 - Now includes support for qhy cameras and both sky360 and simple blob detectors
+# v 1.0.4 - Using sky360lib 1.0.3
 
-# docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda:1.0.3
+# docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda:1.0.4
 # https://medium.com/ava-information/enabling-gpus-with-nvidia-docker-container-runtime-b4619d9173f5
 # https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-22-04
 # https://stackoverflow.com/questions/25185405/using-gpu-from-a-docker-container
-# docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-cuda:1.0.3 bash
+# docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-cuda:1.0.4 bash
 
 # if you get an error similar to this: 
 #    error: (-2:Unspecified error) Can’t initialize GTK backend in function
@@ -16,7 +17,7 @@
 # 2. then run xhost +
 # NOTE: You will need the nvidia docker runtime installed in order to run simple tracker with cuda enabled, I have added some links above for this
 
-FROM sky360/sky360lib-cuda:1.0.2
+FROM sky360/sky360lib-cuda:1.0.3
 
 RUN apt-get update && apt-get install -y \
   python3-pip

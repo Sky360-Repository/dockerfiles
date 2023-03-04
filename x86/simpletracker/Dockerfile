@@ -2,6 +2,7 @@
 # v 1.0.1 - Now includes updated and improved WeightedMovingVariance algo
 # v 1.0.2 - Now includes new Sky360 blob detection algo
 # v 1.0.3 - Now includes support for qhy cameras and both sky360 and simple blob detectors
+# v 1.0.4 - Using sky360lib 1.0.3
 
 # docker build --no-cache -f Dockerfile . -t sky360/simpletracker:1.0.4
 # docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.4 bash
