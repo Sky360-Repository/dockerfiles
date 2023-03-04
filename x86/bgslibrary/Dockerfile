@@ -1,7 +1,10 @@
-# docker build --no-cache -f Dockerfile . -t sky360/bgslibrary:1.0.0
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/bgslibrary:1.0.0 bash
+# v 1.0.0 - Base BGS library with opencv 4.6
+# v 1.0.1 - Base BGS library with opencv 4.7
 
-FROM sky360/opencv4:4.6.0
+# docker build --no-cache -f Dockerfile . -t sky360/bgslibrary:1.0.1
+# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/bgslibrary:1.0.1 bash
+
+FROM sky360/opencv4:4.7.0
 
 WORKDIR /opt
 

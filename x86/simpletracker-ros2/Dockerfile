@@ -1,6 +1,6 @@
 
-# docker build --no-cache -f Dockerfile . -t sky360/simpletracker-ros2:1.0.2
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-ros2:1.0.2 bash
+# docker build --no-cache -f Dockerfile . -t sky360/simpletracker-ros2:1.0.3
+# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-ros2:1.0.3 bash
 
 # if you get an error similar to this: 
 #    error: (-2:Unspecified error) Can’t initialize GTK backend in function
@@ -18,7 +18,7 @@
 # source /root/.bashrc
 # ./build.sh
 
-FROM sky360/ros2-humble-full:1.0.3
+FROM sky360/ros2-humble-full:1.0.4
 
 # ** [Optional] Uncomment this section to install additional packages. **
 

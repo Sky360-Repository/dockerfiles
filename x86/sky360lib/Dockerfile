@@ -1,10 +1,11 @@
 # v 1.0.0 - Base install with updated and improved WeightedMovingVariance algo
 # v 1.0.1 - Now includes new Sky360 blob detection algo
+# v 1.0.3 - Including support for qhy cameras and bgs parameters changing
 
-# docker build --no-cache -f Dockerfile . -t sky360/sky360lib:1.0.2
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/sky360lib:1.0.2 bash
+# docker build --no-cache -f Dockerfile . -t sky360/sky360lib:1.0.3
+# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/sky360lib:1.0.3 bash
 
-FROM sky360/bgslibrary:1.0.0
+FROM sky360/bgslibrary:1.0.1
 
 # Install Cuda
 # WORKDIR /opt
