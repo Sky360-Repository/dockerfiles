@@ -2,10 +2,10 @@
 # v 1.0.1 - Now includes new Sky360 blob detection algo
 # v 1.0.3 - Including support for qhy cameras and bgs parameters changing
 
-# docker build --no-cache -f Dockerfile . -t sky360/sky360lib:1.0.3
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/sky360lib:1.0.3 bash
+# docker build --no-cache -f Dockerfile . -t sky360/sky360lib-arm64:1.0.3
+# docker run -it --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/bus/usb:/dev/bus/usb -e DISPLAY=$DISPLAY sky360/sky360lib-arm64:1.0.3 bash
 
-FROM sky360/bgslibrary:1.0.1
+FROM sky360/bgslibrary-arm64:1.0.1
 
 # Install Cuda
 # WORKDIR /opt
@@ -19,10 +19,10 @@ RUN apt-get update && apt-get upgrade -y
 
 # Install QHY sdk
 WORKDIR /opt
-RUN wget https://www.qhyccd.com/file/repository/publish/SDK/230111/sdk_linux64_23.01.11.tgz
-RUN tar -xf sdk_linux64_23.01.11.tgz
-RUN rm sdk_linux64_23.01.11.tgz
-WORKDIR /opt/sdk_linux64_23.01.11
+RUN wget https://www.qhyccd.com/file/repository/publish/SDK/230228/sdk_Arm64_23.02.28.tgz
+RUN tar -xf sdk_Arm64_23.02.28.tgz
+RUN rm sdk_Arm64_23.02.28.tgz
+WORKDIR /opt/sdk_Arm64_23.02.28
 RUN bash install.sh
 
 # Install OpenCL
@@ -43,11 +43,11 @@ RUN cmake --build . --target install -j$(nproc)
 
 # Install Easy Profiler
 WORKDIR /opt
-RUN wget https://github.com/yse/easy_profiler/releases/download/v2.1.0/easy_profiler_core-v2.1.0-linux-x64-libc-2.27.tar.gz
-RUN mkdir easy_profiler
-RUN tar -xf easy_profiler_core-v2.1.0-linux-x64-libc-2.27.tar.gz -C easy_profiler
-RUN rm easy_profiler_core-v2.1.0-linux-x64-libc-2.27.tar.gz
-RUN cp easy_profiler/bin/*.so easy_profiler/lib
+RUN git clone https://github.com/yse/easy_profiler.git
+WORKDIR /opt/easy_profiler/build
+RUN cmake -DCMAKE_BUILD_TYPE=Release ..
+RUN cmake --build . -j$(nproc)
+RUN make install
 
 # Install sky360lib
 WORKDIR /opt

@@ -1,6 +1,6 @@
-# docker build --no-cache -f Dockerfile-cuda . -t sky360/base-cuda:1.0.0
+# docker build --no-cache -f Dockerfile . -t sky360/base-arm64:1.0.0
 
-FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
+FROM ubuntu:22.04
 
 WORKDIR /tmp
 
@@ -8,7 +8,7 @@ ENV TZ=Europe/London
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Install dependencies
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update && apt-get upgrade 
 RUN apt-get install -y \
     build-essential \
     cmake \
@@ -44,7 +44,7 @@ RUN apt-get install -y \
     qtbase5-dev \
     qtchooser \
     qt5-qmake \
-    qtbase5-dev-tools    
+    qtbase5-dev-tools
 
 # Install boost
 RUN apt-get install -y libboost-all-dev

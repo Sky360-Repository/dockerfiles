@@ -4,8 +4,8 @@
 # v 1.0.3 - Includes Vulcanexus install for prometheus exports and eProsima / prometheus-cpp build
 # v 1.0.4 - change base to sky360lib 1.0.3
 
-# docker build --no-cache -f Dockerfile-base . -t sky360/ros2-humble-base:1.0.4
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-base:1.0.4 bash
+# docker build --no-cache -f Dockerfile-base . -t sky360/ros2-humble-base-arm64:1.0.4
+# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-base-arm64:1.0.4 bash
 
 # docker push sky360/ros2-humble-base:1.0.3 && docker push sky360/ros2-humble-dev:1.0.3 && docker push sky360/ros2-humble-full:1.0.3 && docker push sky360/ros2-humble-gazebo:1.0.3 && docker push sky360/ros2-humble-nvidia:1.0.3
 
@@ -17,7 +17,7 @@
 # Base image 
 ###########################################
 
-FROM sky360/sky360lib:1.0.3
+FROM sky360/sky360lib-arm64:1.0.3
 
 ENV DEBIAN_FRONTEND=noninteractive
 
