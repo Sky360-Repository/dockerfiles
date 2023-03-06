@@ -1,0 +1,29 @@
+# v 1.0.0 - Base install
+# v 1.0.1 - Changed the base conatiner to be Sky360Lib
+# v 1.0.2 - Sky360Lib includes support for WMV bgs, blob detector and qhy cameras. The sky360 bgs and blod algos have speed improvements
+# v 1.0.3 - Includes Vulcanexus install for prometheus exports and eProsima / prometheus-cpp build
+# v 1.0.4 - Using sky360lib 1.0.3
+# v 1.0.5 - Making it multi-archtecture
+
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile-full . -t sky360/ros2-humble-full:1.0.5
+# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-full:1.0.5 bash
+
+##############################################
+# Copied from https://github.com/athackst/dockerfiles/tree/main/ros2 but using sky360 image as base
+##############################################
+
+###########################################
+#  Full image 
+###########################################
+
+FROM sky360/ros2-humble-dev:1.0.5
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install the full release incl. Vulcanexus
+RUN apt-get update && apt-get install -y \
+  ros-humble-desktop \
+  vulcanexus-humble-desktop \
+  && rm -rf /var/lib/apt/lists/*
+
+ENV DEBIAN_FRONTEND=

@@ -1,0 +1,34 @@
+# v 1.0.0 - Base install
+# v 1.0.1 - Changed the base conatiner to be Sky360Lib
+# v 1.0.2 - Sky360Lib includes support for WMV bgs, blob detector and qhy cameras. The sky360 bgs and blod algos have speed improvements
+
+# docker build --no-cache -f Dockerfile-cuda-nvidia . -t sky360/ros2-humble-cuda-nvidia:1.0.2
+# docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-cuda-nvidia:1.0.2 bash
+
+##############################################
+# Copied from https://github.com/athackst/dockerfiles/tree/main/ros2 but using sky360 image as base
+##############################################
+
+###########################################
+#  Full+Gazebo+Nvidia CUDA image 
+###########################################
+
+FROM sky360/ros2-humble-cuda-gazebo:1.0.2
+
+################
+# Expose the nvidia driver to allow opengl 
+# Dependencies for glvnd and X11.
+################
+RUN apt-get update \
+ && apt-get install -y -qq --no-install-recommends \
+  libglvnd0 \
+  libgl1 \
+  libglx0 \
+  libegl1 \
+  libxext6 \
+  libx11-6
+
+# Env vars for the nvidia-container-runtime.
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
+ENV QT_X11_NO_MITSHM 1
