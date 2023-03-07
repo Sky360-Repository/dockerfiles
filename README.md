@@ -2,49 +2,27 @@
 
 ## Building
 
-### base
+Before building you need to execute:
 
-`docker build --no-cache -f Dockerfile . -t sky360/opencv4:base`
+`docker buildx create --name builder_mp --use --bootstrap`
 
-`docker build --no-cache -f Dockerfile-cuda . -t sky360/opencv4-cuda:base`
+Each Dockerfile has the instructions to build the latest version, for instance, for the base:
 
-### opencv4.6.0
+`docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/base:1.0.1`
 
-`docker build --no-cache -f Dockerfile . -t sky360/opencv4:4.6.0`
-
-`docker build --no-cache -f Dockerfile-cuda . -t sky360/opencv4-cuda:4.6.0`
-
-### BGSLibrary
-
-`docker build --no-cache -f Dockerfile . -t sky360/bgslibrary:1.0.0`
-
-`docker build --no-cache -f Dockerfile-cuda . -t sky360/bgslibrary-cuda:1.0.0`
-
-### sky360Lib
-
-`docker build --no-cache -f Dockerfile . -t sky360/sky360lib:1.0.1`
-
-`docker build --no-cache -f Dockerfile-cuda . -t sky360/sky360lib-cuda:1.0.1`
-
-### simple tracker
-
-`docker build --no-cache -f Dockerfile . -t sky360/simpletracker:1.0.2`
-
-`docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda:1.0.2`
-
-### simple tracker ros2
-
-`docker build --no-cache -f Dockerfile . -t sky360/simpletracker-ros2:1.0.1`
-
-`docker build --no-cache -f Dockerfile-cuda . -t sky360/simpletracker-cuda-ros2:1.0.1`
+Almost all containers will be build for both x64 (amd64) and arm (arm64) architectures. The CUDA version of the containers is only build for x64.
 
 ## Running simple tracker
+
+First make sure you run the commands below on a Linux terminal. Sometimes you might need to change the `export DISPLAY=:0` to `export DISPLAY=:1` if you have multiple displays and `0` does not work.
 
 `export DISPLAY=:0`
 
 `xhost +`
 
-`docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.2 bash`
+Each Dockerfile also has the instruction to run it. For the SimpleTracker, it is as follows, always check the Dockerfile for the latest run command.
+
+`docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/Videos/tracker-output:/opt/simpletracker/output -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.5 bash`
 
 When inside the container run simple tracker using the command below:
 
