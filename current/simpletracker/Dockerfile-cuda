@@ -18,7 +18,7 @@
 # 2. then run xhost +
 # NOTE: You will need the nvidia docker runtime installed in order to run simple tracker with cuda enabled, I have added some links above for this
 
-FROM sky360/sky360lib-cuda:1.0.3
+FROM sky360/sky360lib-cuda:1.0.4
 
 RUN apt-get update && apt-get install -y \
   python3-pip

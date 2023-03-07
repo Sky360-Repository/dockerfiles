@@ -1,7 +1,7 @@
 # v 1.0.4 - Making it multi-archtecture
 
 # docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/simpletracker-ros2:1.0.4
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-ros2:1.0.4 bash
+# docker run --user ros:ros -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-ros2:1.0.4 bash
 
 # if you get an error similar to this: 
 #    error: (-2:Unspecified error) Can’t initialize GTK backend in function
@@ -19,9 +19,7 @@
 # source /root/.bashrc
 # ./build.sh
 
-FROM sky360/ros2-humble-full:1.0.5
-
-# ** [Optional] Uncomment this section to install additional packages. **
+FROM sky360/ros2-humble-dev:1.0.5
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -32,21 +30,17 @@ RUN apt-get update \
    && export PYTHONWARNINGS=ignore:::setuptools.command.install \
    && apt-get autoremove -y \
    && apt-get clean -y
-   #&& rm -rf /var/lib/apt/lists/*
+   # && rm -rf /var/lib/apt/lists/*
 
 ENV DEBIAN_FRONTEND=dialog
 
+# Set up auto-source of workspace for ros user
+ARG WORKSPACE=/home/ros/simpletracker-ros2-ws
+
 WORKDIR /home/ros
-
-RUN echo "if [ -f /home/ros/simpletracker-ros2-ws/install/setup.bash ]; then source /home/ros/simpletracker-ros2-ws/install/setup.bash; fi" >> /home/ros/.bashrc
-
 RUN git clone --recursive https://github.com/Sky360-Repository/simpletracker-ros2-ws.git
-
+RUN echo "if [ -f /opt/vulcanexus/humble/setup.bash ]; then source /opt/vulcanexus/humble/setup.bash; fi" >> /home/ros/.bashrc
+RUN echo "if [ -f ${WORKSPACE}/install/setup.bash ]; then source ${WORKSPACE}/install/setup.bash; fi" >> /home/ros/.bashrc
 RUN chown -R ros:ros /home/ros/simpletracker-ros2-ws
-
 WORKDIR /home/ros/simpletracker-ros2-ws
-
-#RUN ./setup.sh
-#RUN source /root/.bashrc
-
-#RUN sed -i -- "s/#('sky360/('sky3602/g" ./src/simple_tracker_launch/launch/simple_tracker_launch.py
+# RUN bash setup.sh
