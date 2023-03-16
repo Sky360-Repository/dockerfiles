@@ -1,0 +1,46 @@
+# docker build --no-cache -f Dockerfile.tf . -t sky360/ros2-humble-tf:1.0.0
+
+# docker run --gpus all -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix sky360/ros2-humble-tf:1.0.0 bash
+
+FROM sky360/ros2-humble-nvidia:1.0.5
+
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+
+# install tensorflow
+#RUN export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/usr/local/cuda/extras/CUPTI/lib64
+#RUN pip install tensorflow
+
+# tensorflow object detection dependencies from:
+# https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html#install-prerequisites
+# https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/installation.md
+RUN apt-get install -y protobuf-compiler python-tk
+RUN pip install Cython contextlib2 jupyter matplotlib Pillow lxml
+
+# get tensorflow models repository
+# currently object detection is part of research models that are not available on releases, so we use master
+# TODO: check v2.20 WIP object detection https://github.com/tensorflow/models/tree/v2.2.0/official/vision/detection
+RUN git clone https://github.com/tensorflow/models.git /usr/local/lib/python3.10/dist-packages/tensorflow/models
+
+# protobuf compilation
+WORKDIR /usr/local/lib/python3.10/dist-packages/tensorflow/models/research
+RUN protoc object_detection/protos/*.proto --python_out=.
+
+# Tensorflow-Slim (required for image segmentation)
+RUN pip install tf_slim
+
+# optional install COCO API for COCO metrics
+#RUN git clone https://github.com/cocodataset/cocoapi.git $HOME/cocoapi
+#WORKDIR $HOME/cocoapi/PythonAPI
+#RUN rm Makefile
+#COPY scripts/coco/Makefile $HOME/cocoapi/PythonAPI/Makefile
+#RUN make
+#RUN cp -r pycocotools /usr/local/lib/python3.6/dist-packages/tensorflow/models/research
+#RUN pip install pycocotools
+
+#### SET ENVIRONMENT
+
+ENV PYTHONPATH=$PYTHONPATH:/usr/local/lib/python3.10/dist-packages/tensorflow/models/research
+
+RUN chmod -R 777 /usr/local/lib/python3.10/dist-packages/tensorflow/models
