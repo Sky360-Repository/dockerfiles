@@ -16,7 +16,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPA
 # https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html#install-prerequisites
 # https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/installation.md
 RUN apt-get install -y protobuf-compiler python-tk
-RUN pip install Cython contextlib2 jupyter matplotlib Pillow lxml
+RUN pip install Cython contextlib2 jupyter matplotlib Pillow lxml keras
 
 # get tensorflow models repository
 # currently object detection is part of research models that are not available on releases, so we use master
