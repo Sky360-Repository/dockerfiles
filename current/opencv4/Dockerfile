@@ -1,8 +1,9 @@
 # v 1.0.1 - OpenCV 4.7
+# v 1.0.2 - Version bump
 
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/opencv4:1.0.1
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/opencv4:1.0.2 -t sky360/opencv4:latest
 
-FROM sky360/base:1.0.1
+FROM sky360/base:1.0.2
 
 WORKDIR /tmp
 

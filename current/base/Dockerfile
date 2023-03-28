@@ -1,5 +1,5 @@
 # docker buildx create --name builder_mp --use --bootstrap
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/base:1.0.1
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/base:1.0.2 -t sky360/base:latest 
 
 FROM ubuntu:22.04
 
@@ -45,7 +45,8 @@ RUN apt-get install -y \
     qtbase5-dev \
     qtchooser \
     qt5-qmake \
-    qtbase5-dev-tools
+    qtbase5-dev-tools \
+    usbutils
 
 # Install boost
 RUN apt-get install -y libboost-all-dev

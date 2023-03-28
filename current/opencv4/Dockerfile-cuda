@@ -1,6 +1,8 @@
-# docker build --no-cache -f Dockerfile-cuda . -t sky360/opencv4-cuda:1.0.1
 
-FROM sky360/base-cuda:1.0.1
+# docker buildx build --push --platform linux/amd64 --no-cache -f Dockerfile-cuda . -t sky360/opencv4-cuda:1.0.2 -t sky360/opencv4-cuda:latest
+
+
+FROM sky360/base-cuda:1.0.2
 
 WORKDIR /tmp
 
