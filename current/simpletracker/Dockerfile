@@ -4,9 +4,10 @@
 # v 1.0.3 - Now includes support for qhy cameras and both sky360 and simple blob detectors
 # v 1.0.4 - Using sky360lib 1.0.3
 # v 1.0.5 - Making it multi-architecture
+# v 1.0.6 - Version bump
 
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/simpletracker:1.0.5
-# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker:1.0.5 bash
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/simpletracker:1.0.6 -t sky360/simpletracker:latest
+# docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker:latest bash
 
 # if you get an error similar to this: 
 #    error: (-2:Unspecified error) Can’t initialize GTK backend in function
@@ -17,7 +18,7 @@
 # ./run.sh
 
 
-FROM sky360/sky360lib:1.0.4
+FROM sky360/sky360lib:1.0.5
 
 RUN apt-get update && apt-get install -y \
   python3-pip

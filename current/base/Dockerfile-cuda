@@ -1,6 +1,7 @@
-# docker build --no-cache -f Dockerfile-cuda . -t sky360/base-cuda:1.0.1
+# docker build --no-cache -f Dockerfile-cuda . -t sky360/base-cuda:1.0.2 -t sky360/base-cuda:latest
+# docker buildx build --push --platform linux/amd64 --no-cache -f Dockerfile-cuda . -t sky360/base-cuda:1.0.2 -t sky360/base-cuda:latest 
 
-FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
+FROM nvidia/cuda:12.0.1-cudnn8-devel-ubuntu22.04
 
 WORKDIR /tmp
 
@@ -44,7 +45,8 @@ RUN apt-get install -y \
     qtbase5-dev \
     qtchooser \
     qt5-qmake \
-    qtbase5-dev-tools    
+    qtbase5-dev-tools \
+    usbutils   
 
 # Install boost
 RUN apt-get install -y libboost-all-dev
