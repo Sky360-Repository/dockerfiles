@@ -1,12 +1,12 @@
-# docker build --no-cache -f Dockerfile.tf . -t sky360/ros2-humble-tf:1.0.0
+# docker build --no-cache -f Dockerfile-tf . -t sky360/ros2-humble-tf:1.0.0
 
 # docker run --gpus all -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix sky360/ros2-humble-tf:1.0.0 bash
 
-FROM sky360/ros2-humble-nvidia:1.0.5
+FROM sky360/ros2-humble-full:1.0.5
 
 # nvidia-container-runtime
-ENV NVIDIA_VISIBLE_DEVICES ${NVIDIA_VISIBLE_DEVICES:-all}
-ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+#ENV NVIDIA_VISIBLE_DEVICES ${NVIDIA_VISIBLE_DEVICES:-all}
+#ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
 
 # install tensorflow
 #RUN export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/usr/local/cuda/extras/CUPTI/lib64
@@ -15,7 +15,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPA
 # tensorflow object detection dependencies from:
 # https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html#install-prerequisites
 # https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/installation.md
-RUN apt-get install -y protobuf-compiler python-tk
+RUN apt-get update && apt-get install -y protobuf-compiler python-tk
 RUN pip install Cython contextlib2 jupyter matplotlib Pillow lxml keras
 
 # get tensorflow models repository
