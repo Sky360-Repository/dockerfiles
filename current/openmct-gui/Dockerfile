@@ -1,3 +1,6 @@
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/openmct-gui:1.0.0 -t sky360/openmct-gui:latest
+# docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/openmct-gui:latest bash
+
 # Use the official Ubuntu 20.04 image as the base image
 FROM ubuntu:20.04
 
