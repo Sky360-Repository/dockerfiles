@@ -5,8 +5,9 @@
 # v 1.0.4 - Using sky360lib 1.0.3
 # v 1.0.5 - Making it multi-archtecture
 # v 1.0.6 - Version bump
+# v 1.0.7 - Version bump
 
-# docker buildx build --push --platform linux/amd64 --no-cache -f Dockerfile-gazebo . -t sky360/ros2-humble-gazebo:1.0.6 -t sky360/ros2-humble-gazebo:latest
+# docker buildx build --push --platform linux/amd64 --no-cache -f Dockerfile-gazebo . -t sky360/ros2-humble-gazebo:1.0.7 -t sky360/ros2-humble-gazebo:latest
 # docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-gazebo:latest bash
 
 ##############################################
@@ -17,7 +18,7 @@
 #  Full+Gazebo image 
 ###########################################
 
-FROM sky360/ros2-humble-full:1.0.6
+FROM sky360/ros2-humble-full:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 # Install gazebo

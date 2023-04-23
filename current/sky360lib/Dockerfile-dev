@@ -3,14 +3,15 @@
 # v 1.0.3 - Including support for qhy cameras and bgs parameters changing
 # v 1.0.4 - Making it multi-architecture
 # v 1.0.5 - Version bump
+# v 1.0.6 - Removing OpenCL and Easy Profiler as dependencies
 
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile-dev . -t sky360/sky360lib-dev:1.0.5 -t sky360/sky360lib-dev:latest
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile-dev . -t sky360/sky360lib-dev:1.0.6 -t sky360/sky360lib-dev:latest
 # docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/sky360lib-dev:latest bash
 
 FROM sky360/bgslibrary:1.0.3 as base
 ARG TARGETARCH
 
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update && apt-get upgrade -y && apt-get install -y libusb-1.0-0-dev
 
 FROM base AS base-amd64
 # Install QHY sdk
@@ -31,18 +32,18 @@ RUN bash install.sh
 
 FROM base-${TARGETARCH} AS final
 
-# Install OpenCL
-WORKDIR /opt
-RUN apt -y install mesa-utils mesa-common-dev libao-dev freeglut3-dev libglew-dev libglfw3-dev libglm-dev libmpg123-dev
-RUN git clone --recursive https://github.com/KhronosGroup/OpenCL-SDK.git
-WORKDIR /opt/OpenCL-SDK/build
-RUN cmake .. -DOpenGL_GL_PREFERENCE=GLVND -DCMAKE_INSTALL_PREFIX=/usr/local
-RUN cmake --build . --target install -j$(nproc)
+# # Install OpenCL
+# WORKDIR /opt
+# RUN apt -y install mesa-utils mesa-common-dev libao-dev freeglut3-dev libglew-dev libglfw3-dev libglm-dev libmpg123-dev
+# RUN git clone --recursive https://github.com/KhronosGroup/OpenCL-SDK.git
+# WORKDIR /opt/OpenCL-SDK/build
+# RUN cmake .. -DOpenGL_GL_PREFERENCE=GLVND -DCMAKE_INSTALL_PREFIX=/usr/local
+# RUN cmake --build . --target install -j$(nproc)
 
-# Install Easy Profiler
-WORKDIR /opt
-RUN git clone https://github.com/yse/easy_profiler.git
-WORKDIR /opt/easy_profiler/build
-RUN cmake -DCMAKE_BUILD_TYPE=Release ..
-RUN cmake --build . -j$(nproc)
-RUN make install
+# # Install Easy Profiler
+# WORKDIR /opt
+# RUN git clone https://github.com/yse/easy_profiler.git
+# WORKDIR /opt/easy_profiler/build
+# RUN cmake -DCMAKE_BUILD_TYPE=Release ..
+# RUN cmake --build . -j$(nproc)
+# RUN make install

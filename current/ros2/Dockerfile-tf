@@ -1,7 +1,7 @@
-# docker buildx build --push --platform linux/amd64 --no-cache -f Dockerfile-tf . -t sky360/ros2-humble-tf:1.0.6 -t sky360/ros2-humble-tf:latest
+# docker buildx build --push --platform linux/amd64 --no-cache -f Dockerfile-tf . -t sky360/ros2-humble-tf:1.0.7 -t sky360/ros2-humble-tf:latest
 # docker run --gpus all -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix sky360/ros2-humble-tf:latest bash
 
-FROM sky360/ros2-humble-nvidia:1.0.6
+FROM sky360/ros2-humble-nvidia:latest
 
 # nvidia-container-runtime
 ENV NVIDIA_VISIBLE_DEVICES ${NVIDIA_VISIBLE_DEVICES:-all}
