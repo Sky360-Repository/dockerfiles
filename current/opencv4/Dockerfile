@@ -1,9 +1,10 @@
 # v 1.0.1 - OpenCV 4.7
 # v 1.0.2 - Version bump
+# v 1.0.3 - Version bump
 
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/opencv4:1.0.2 -t sky360/opencv4:latest
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/opencv4:1.0.3 -t sky360/opencv4:latest
 
-FROM sky360/base:1.0.2
+FROM sky360/base:latest
 
 WORKDIR /tmp
 
@@ -49,14 +50,15 @@ RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D INSTALL_C_EXAMPLES=OFF \
       -D OPENCV_ENABLE_NONFREE=ON \
       -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-$OPENCV_VERSION/modules \
-      ../
+      -D OpenGL_GL_PREFERENCE=LEGACY \
+      ..
 
 RUN make -j $(nproc)
 RUN make install
 
 RUN sh -c 'echo "/usr/local/lib" >> /etc/ld.so.conf.d/opencv.conf'
 RUN ldconfig
-ENV PYTHONPATH=$PYTHONPATH:/usr/lib/python3.8/site-packages/cv2/python-3.8
+ENV PYTHONPATH=$PYTHONPATH:/usr/lib/python3/dist-packages/cv2/python-3.10/
 WORKDIR /opt
 
 RUN apt-get autoclean && apt-get clean \

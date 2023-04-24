@@ -1,5 +1,5 @@
 # docker buildx create --name builder_mp --use --bootstrap
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/base:1.0.2 -t sky360/base:latest 
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/base:1.0.3 -t sky360/base:latest 
 
 FROM ubuntu:22.04
 
@@ -9,7 +9,7 @@ ENV TZ=Europe/London
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Install dependencies
-RUN apt-get update && apt-get upgrade 
+RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y \
     build-essential \
     cmake \
@@ -36,17 +36,24 @@ RUN apt-get install -y \
     python3-numpy \
     libtbb2 \
     libtbb-dev \
-    #libdc1394-22-dev \
+    libdc1394-25 \
     libdc1394-dev \
     libopenexr-dev \
+    libunwind-dev \
     libgstreamer-plugins-base1.0-dev \
+    libgstreamer-opencv1.0-0 \
     libgstreamer1.0-dev \
-    #qt5-default
+    liblapacke-dev \
+    libva-dev libva-drm2 libva-x11-2 libva-glx2 \
+    libhdf5-dev \
     qtbase5-dev \
     qtchooser \
     qt5-qmake \
     qtbase5-dev-tools \
-    usbutils
+    libvtk9-dev libvtk9-qt-dev \
+    usbutils \
+    libusb-1.0-0-dev
+
 
 # Install boost
 RUN apt-get install -y libboost-all-dev

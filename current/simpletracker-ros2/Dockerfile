@@ -1,6 +1,5 @@
-# v 1.0.4 - Making it multi-archtecture
 
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/simpletracker-ros2:1.0.5 -t sky360/simpletracker-ros2:latest
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/simpletracker-ros2:1.0.6 -t sky360/simpletracker-ros2:latest
 # docker run --user ros:ros -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simpletracker-ros2:latest bash
 
 # if you get an error similar to this: 

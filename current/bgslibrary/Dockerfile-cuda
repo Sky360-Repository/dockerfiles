@@ -1,7 +1,7 @@
-# docker buildx build --push --platform linux/amd64 --no-cache -f Dockerfile-cuda . -t sky360/bgslibrary-cuda:1.0.3 -t sky360/bgslibrary-cuda:latest
+# docker buildx build --push --platform linux/amd64 --no-cache -f Dockerfile-cuda . -t sky360/bgslibrary-cuda:1.0.4 -t sky360/bgslibrary-cuda:latest
 # docker run -it --runtime=nvidia --gpus all --privileged --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/bgslibrary-cuda:latest bash
 
-FROM sky360/opencv4-cuda:1.0.2
+FROM sky360/opencv4-cuda:latest
 
 WORKDIR /opt
 
