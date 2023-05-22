@@ -1,5 +1,5 @@
 # docker buildx create --name builder_mp --use --bootstrap
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/base:1.0.3 -t sky360/base:latest 
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/base:1.0.4 -t sky360/base:latest 
 
 FROM ubuntu:22.04
 
@@ -52,7 +52,8 @@ RUN apt-get install -y \
     qtbase5-dev-tools \
     libvtk9-dev libvtk9-qt-dev \
     usbutils \
-    libusb-1.0-0-dev
+    libusb-1.0-0-dev \
+    clang
 
 
 # Install boost
@@ -61,6 +62,9 @@ RUN apt-get install -y libboost-all-dev
 # Install pip
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN python3 get-pip.py
+
+# Install Rust
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 RUN ln -s /usr/bin/python3 /usr/bin/python
 

@@ -2,7 +2,7 @@
 # v 1.0.2 - Version bump
 # v 1.0.3 - Version bump
 
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/opencv4:1.0.3 -t sky360/opencv4:latest
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/opencv4:1.0.4 -t sky360/opencv4:latest
 
 FROM sky360/base:latest
 

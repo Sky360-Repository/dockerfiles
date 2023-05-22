@@ -4,7 +4,7 @@
 # v 1.0.3 - Version bump
 # v 1.0.4 - Version bump
 
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/bgslibrary:1.0.4 -t sky360/bgslibrary:latest
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/bgslibrary:1.0.5 -t sky360/bgslibrary:latest
 # docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/bgslibrary:latest bash
 
 FROM sky360/opencv4:latest

@@ -6,7 +6,7 @@
 # v 1.0.6 - Version bump
 # v 1.0.7 - Version bump
 
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/sky360lib:1.0.7 -t sky360/sky360lib:latest
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/sky360lib:1.0.8 -t sky360/sky360lib:latest
 # docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/sky360lib:latest bash
 
 FROM sky360/sky360lib-dev:latest as base

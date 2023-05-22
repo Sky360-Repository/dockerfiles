@@ -1,5 +1,5 @@
 
-# docker buildx build --push --platform linux/amd64 --no-cache -f Dockerfile-cuda . -t sky360/opencv4-cuda:1.0.3 -t sky360/opencv4-cuda:latest
+# docker buildx build --push --platform linux/amd64 --no-cache -f Dockerfile-cuda . -t sky360/opencv4-cuda:1.0.4 -t sky360/opencv4-cuda:latest
 
 FROM sky360/base-cuda:latest
 
