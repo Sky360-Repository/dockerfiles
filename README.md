@@ -129,3 +129,7 @@ Please remember that these containers don't store state, so if you want to run i
 There will be a number of windows that spawn once the program runs, they are all the topics currently available. Let MikeG know if there are too many and he can tweak the docker build script.
 
 Best of luck!
+
+
+# Testing visualization of codebase
+[Link to visualization](https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=Sky360-Repository%2Fdockerfiles)
