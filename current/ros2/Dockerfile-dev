@@ -1,14 +1,5 @@
-# v 1.0.0 - Base install
-# v 1.0.1 - Changed the base conatiner to be Sky360Lib
-# v 1.0.2 - Sky360Lib includes support for WMV bgs, blob detector and qhy cameras. The sky360 bgs and blod algos have speed improvements
-# v 1.0.3 - Includes Vulcanexus install for prometheus exports and eProsima / prometheus-cpp build
-# v 1.0.4 - Using sky360lib 1.0.3
-# v 1.0.5 - Making it multi-archtecture
-# v 1.0.6 - Version bump
-# v 1.0.7 - Version bump
-# v 1.0.8 - Version bump
 
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile-dev . -t sky360/ros2-humble-dev:1.0.9 -t sky360/ros2-humble-dev:latest
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile-dev . -t sky360/ros2-humble-dev:1.0.10 -t sky360/ros2-humble-dev:latest
 # docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-dev:latest bash
 
 ##############################################
@@ -24,18 +15,14 @@ FROM sky360/ros2-humble-base:latest
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
   bash-completion \
-  #build-essential \
-  #cmake \
   gdb \
-  #git \
+  sudo \
   pylint \
   python3-argcomplete \
   python3-colcon-common-extensions \
   python3-pip \
   python3-rosdep \
   python3-vcstool \
-  #vim \
-  #wget \
   # Install ros distro testing packages
   ros-humble-ament-lint \
   ros-humble-launch-testing \
@@ -55,8 +42,6 @@ ARG USER_GID=$USER_UID
 RUN groupadd --gid $USER_GID $USERNAME \
   && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME \
   # [Optional] Add sudo support for the non-root user
-  && apt-get update \
-  && apt-get install -y sudo \
   && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME\
   && chmod 0440 /etc/sudoers.d/$USERNAME \
   # Cleanup
@@ -67,14 +52,14 @@ RUN groupadd --gid $USER_GID $USERNAME \
 
 ## BEGIN Prometheus Stuff
 
-WORKDIR /opt
-RUN git clone https://github.com/eProsima/Fast-DDS-statistics-backend.git
-WORKDIR /opt/Fast-DDS-statistics-backend/examples/cpp/ROS2Prometheus
-RUN mkdir build
-RUN chown -R $USERNAME:$USERNAME /opt/Fast-DDS-statistics-backend
+# WORKDIR /opt
+# RUN git clone https://github.com/eProsima/Fast-DDS-statistics-backend.git
+# WORKDIR /opt/Fast-DDS-statistics-backend/examples/cpp/ROS2Prometheus
+# RUN mkdir build
+# RUN chown -R $USERNAME:$USERNAME /opt/Fast-DDS-statistics-backend
 
-ENV PATH="${PATH}:/opt/Fast-DDS-statistics-backend/examples/cpp/ROS2Prometheus/build/"
-ENV FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;PUBLICATION_THROUGHPUT_TOPIC;PHYSICAL_DATA_TOPIC"
+# ENV PATH="${PATH}:/opt/Fast-DDS-statistics-backend/examples/cpp/ROS2Prometheus/build/"
+# ENV FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;PUBLICATION_THROUGHPUT_TOPIC;PHYSICAL_DATA_TOPIC"
 #ENV FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;NETWORK_LATENCY_TOPIC;PUBLICATION_THROUGHPUT_TOPIC;SUBSCRIPTION_THROUGHPUT_TOPIC;RTPS_SENT_TOPIC;RTPS_LOST_TOPIC;HEARTBEAT_COUNT_TOPIC;ACKNACK_COUNT_TOPIC;NACKFRAG_COUNT_TOPIC;GAP_COUNT_TOPIC;DATA_COUNT_TOPIC;RESENT_DATAS_TOPIC;SAMPLE_DATAS_TOPIC;PDP_PACKETS_TOPIC;EDP_PACKETS_TOPIC;DISCOVERY_TOPIC;PHYSICAL_DATA_TOPIC"
 
 ## END Prometheus Stuff

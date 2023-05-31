@@ -1,12 +1,5 @@
-# v 1.0.0 - Base install with updated and improved WeightedMovingVariance algo
-# v 1.0.1 - Now includes new Sky360 blob detection algo
-# v 1.0.3 - Including support for qhy cameras and bgs parameters changing
-# v 1.0.4 - Version bump
-# v 1.0.5 - Version bump
-# v 1.0.6 - Version bump
-# v 1.0.7 - Version bump
 
-# docker buildx build --push --platform linux/amd64 --no-cache -f Dockerfile-cuda . -t sky360/sky360lib-cuda:1.0.8 -t sky360/sky360lib-cuda:latest
+# docker buildx build --push --platform linux/amd64 --no-cache -f Dockerfile-cuda . -t sky360/sky360lib-cuda:1.0.9 -t sky360/sky360lib-cuda:latest
 # docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/sky360lib-cuda:latest bash
 
 FROM sky360/bgslibrary-cuda:latest
@@ -18,30 +11,6 @@ RUN tar -xf sdk_linux64_23.01.11.tgz
 RUN rm sdk_linux64_23.01.11.tgz
 WORKDIR /opt/sdk_linux64_23.01.11
 RUN bash install.sh
-
-# # Install OpenCL
-# WORKDIR /opt
-# RUN apt -y install mesa-utils mesa-common-dev libao-dev freeglut3-dev libglew-dev libglfw3-dev libglm-dev libmpg123-dev
-# RUN git clone --recursive https://github.com/KhronosGroup/OpenCL-SDK.git
-# WORKDIR /opt/OpenCL-SDK/build
-# RUN cmake .. -DOpenGL_GL_PREFERENCE=GLVND -DCMAKE_INSTALL_PREFIX=/usr/local
-# RUN cmake --build . --target install -j$(nproc)
-
-# Install Halide
-#WORKDIR /opt
-#RUN wget https://github.com/halide/Halide/releases/download/v14.0.0/Halide-14.0.0-x86-64-linux-6b9ed2afd1d6d0badf04986602c943e287d44e46.tar.gz
-#RUN tar -xf Halide-14.0.0-x86-64-linux-6b9ed2afd1d6d0badf04986602c943e287d44e46.tar.gz
-#RUN rm Halide-14.0.0-x86-64-linux-6b9ed2afd1d6d0badf04986602c943e287d44e46.tar.gz
-#ENV Halide_DIR=/opt/Halide-14.0.0-x86-64-linux/
-#ENV HalideHelpers_DIR=/opt/Halide-14.0.0-x86-64-linux/
-
-# # Install Easy Profiler
-# WORKDIR /opt
-# RUN wget https://github.com/yse/easy_profiler/releases/download/v2.1.0/easy_profiler_core-v2.1.0-linux-x64-libc-2.27.tar.gz
-# RUN mkdir easy_profiler
-# RUN tar -xf easy_profiler_core-v2.1.0-linux-x64-libc-2.27.tar.gz -C easy_profiler
-# RUN rm easy_profiler_core-v2.1.0-linux-x64-libc-2.27.tar.gz
-# RUN cp easy_profiler/bin/*.so easy_profiler/lib
 
 # Install sky360lib
 WORKDIR /opt
