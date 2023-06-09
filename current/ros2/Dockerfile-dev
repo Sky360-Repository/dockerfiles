@@ -1,5 +1,5 @@
 
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile-dev . -t sky360/ros2-humble-dev:1.0.10 -t sky360/ros2-humble-dev:latest
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile-dev . -t sky360/ros2-humble-dev:1.0.11 -t sky360/ros2-humble-dev:latest
 # docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-dev:latest bash
 
 ##############################################
@@ -28,6 +28,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
   ros-humble-launch-testing \
   ros-humble-launch-testing-ament-cmake \
   ros-humble-launch-testing-ros \
+  ros-humble-vision-opencv \
+  ros-humble-cv-bridge \
   python3-autopep8 \
   && rm -rf /var/lib/apt/lists/* \
   && rosdep init || echo "rosdep already initialized" \
