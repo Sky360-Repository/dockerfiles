@@ -1,5 +1,5 @@
 
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile-base . -t sky360/ros2-humble-base:1.0.19 -t sky360/ros2-humble-base:latest
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile-base . -t sky360/ros2-humble-base:1.1.0 -t sky360/ros2-humble-base:latest
 # docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/ros2-humble-base:latest bash
 
 ##############################################
@@ -13,54 +13,49 @@
 FROM sky360/sky360lib:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG en_GB.UTF-8
 
 # Install language
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-  locales \
-  curl \
-  gnupg2 \
-  lsb-release \
-  sudo \
+    locales \
+    curl \
+    gnupg2 \
+    lsb-release \
+    sudo \
   && locale-gen en_GB.UTF-8 \
   && update-locale LC_ALL=en_GB.UTF-8 LANG=en_GB.UTF-8 \
-  && rm -rf /var/lib/apt/lists/*
-ENV LANG en_GB.UTF-8
-
+  && rm -rf /var/lib/apt/lists/* && \
 # Install timezone
-RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
+  ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
   && export DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
   && apt-get install -y tzdata \
   && dpkg-reconfigure --frontend noninteractive tzdata \
-  && rm -rf /var/lib/apt/lists/*
-
+  && rm -rf /var/lib/apt/lists/* && \
 # Install ROS2
-RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
+  curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
   && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null \
   && apt-get update && apt-get install -y \
     ros-humble-ros-base \
     ros-humble-rosbridge-server \
     python3-argcomplete \
-  && rm -rf /var/lib/apt/lists/*
-
+  && rm -rf /var/lib/apt/lists/* && \
 ## BEGIN Prometheus Stuff
-
 # Install Vulcanexus
-RUN curl -sSL https://raw.githubusercontent.com/eProsima/vulcanexus/main/vulcanexus.key -o /usr/share/keyrings/vulcanexus-archive-keyring.gpg \
+  curl -sSL https://raw.githubusercontent.com/eProsima/vulcanexus/main/vulcanexus.key -o /usr/share/keyrings/vulcanexus-archive-keyring.gpg \
   && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/vulcanexus-archive-keyring.gpg] http://repo.vulcanexus.org/debian $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/vulcanexus.list > /dev/null \
   && apt-get update && apt-get install -y \
     vulcanexus-humble-base \
-  && rm -rf /var/lib/apt/lists/*
-
+  && rm -rf /var/lib/apt/lists/* && \
 # Build eProsima / prometheus-cpp --> https://github.com/eProsima/prometheus-cpp/
-WORKDIR /tmp
-RUN git clone https://github.com/eProsima/prometheus-cpp.git
-WORKDIR /tmp/prometheus-cpp
-RUN git submodule init && git submodule update && mkdir build
-WORKDIR /tmp/prometheus-cpp/build
-RUN cmake .. -DBUILD_SHARED_LIBS=ON -DENABLE_PUSH=OFF -DENABLE_COMPRESSION=OFF
-RUN cmake --build . --parallel 4
-RUN cmake --install .
+  cd /tmp && \
+  git clone https://github.com/eProsima/prometheus-cpp.git && \
+  cd /tmp/prometheus-cpp && \
+  git submodule init && git submodule update && mkdir build && \
+  cd /tmp/prometheus-cpp/build && \
+  cmake .. -DBUILD_SHARED_LIBS=ON -DENABLE_PUSH=OFF -DENABLE_COMPRESSION=OFF && \
+  cmake --build . -j $(nproc) && \
+  cmake --install .
 
 ## END Prometheus Stuff
 

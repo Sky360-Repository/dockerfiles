@@ -1,5 +1,5 @@
 
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile-dev . -t sky360/sky360lib-dev:1.0.8 -t sky360/sky360lib-dev:latest
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile-dev . -t sky360/sky360lib-dev:1.1.0 -t sky360/sky360lib-dev:latest
 # docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/sky360lib-dev:latest bash
 
 FROM sky360/bgslibrary:latest as base
@@ -7,20 +7,20 @@ ARG TARGETARCH
 
 FROM base AS base-amd64
 # Install QHY sdk
-WORKDIR /opt
-RUN wget https://www.qhyccd.com/file/repository/publish/SDK/230228/sdk_linux64_23.02.28.tgz
-RUN tar -xf sdk_linux64_23.02.28.tgz
-RUN rm sdk_linux64_23.02.28.tgz
-WORKDIR /opt/sdk_linux64_23.02.28
-RUN bash install.sh
+RUN cd /opt && \
+    wget https://www.qhyccd.com/file/repository/publish/SDK/230228/sdk_linux64_23.02.28.tgz && \
+    tar -xf sdk_linux64_23.02.28.tgz && \
+    rm sdk_linux64_23.02.28.tgz && \
+    cd /opt/sdk_linux64_23.02.28 && \
+    bash install.sh
 
 FROM base AS base-arm64
-WORKDIR /opt
-RUN wget https://www.qhyccd.com/file/repository/publish/SDK/230228/sdk_Arm64_23.02.28.tgz
-RUN tar -xf sdk_Arm64_23.02.28.tgz
-RUN rm sdk_Arm64_23.02.28.tgz
-WORKDIR /opt/sdk_Arm64_23.02.28
-RUN bash install.sh
+RUN cd /opt && \
+    wget https://www.qhyccd.com/file/repository/publish/SDK/230228/sdk_Arm64_23.02.28.tgz && \
+    tar -xf sdk_Arm64_23.02.28.tgz && \
+    rm sdk_Arm64_23.02.28.tgz && \
+    cd /opt/sdk_Arm64_23.02.28 && \
+    bash install.sh
 
 FROM base-${TARGETARCH} AS final
 

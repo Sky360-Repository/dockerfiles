@@ -1,72 +1,76 @@
 # docker buildx create --name builder_mp --use --bootstrap
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/base:1.0.4 -t sky360/base:latest 
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/base:1.0.5 -t sky360/base:latest 
+# docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/base:latest bash
 
 FROM ubuntu:22.04
 
 WORKDIR /tmp
 
 ENV TZ=Europe/London
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone && \
 # Install dependencies
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y \
-    build-essential \
-    cmake \
-    pkg-config \
-    wget \
-    git \
-    unzip \
-    nano \
-    curl \
-    libgtk-3-dev \
-    libavcodec-dev \
-    libavformat-dev \
-    libswscale-dev \
-    libv4l-dev \
-    libxvidcore-dev \
-    libx264-dev \
-    libjpeg-dev \
-    libpng-dev \
-    libtiff-dev \
-    gfortran \
-    openexr \
-    libatlas-base-dev \
-    python3-dev \
-    python3-numpy \
-    libtbb2 \
-    libtbb-dev \
-    libdc1394-25 \
-    libdc1394-dev \
-    libopenexr-dev \
-    libunwind-dev \
-    libgstreamer-plugins-base1.0-dev \
-    libgstreamer-opencv1.0-0 \
-    libgstreamer1.0-dev \
-    liblapacke-dev \
-    libva-dev libva-drm2 libva-x11-2 libva-glx2 \
-    libhdf5-dev \
-    qtbase5-dev \
-    qtchooser \
-    qt5-qmake \
-    qtbase5-dev-tools \
-    libvtk9-dev libvtk9-qt-dev \
-    usbutils \
-    libusb-1.0-0-dev \
-    clang
-
+    apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        pkg-config \
+        wget \
+        git \
+        unzip \
+        nano \
+        curl \
+        libgtk-3-dev \
+        libavcodec-dev \
+        libavformat-dev \
+        libswscale-dev \
+        libv4l-dev \
+        libxvidcore-dev \
+        libx264-dev \
+        libjpeg-dev \
+        libpng-dev \
+        libtiff-dev \
+        gfortran \
+        openexr \
+        libatlas-base-dev \
+        python3-dev \
+        python3-numpy \
+        libtbb2 \
+        libtbb-dev \
+        libdc1394-25 \
+        libdc1394-dev \
+        libopenexr-dev \
+        libunwind-dev \
+        libgstreamer-plugins-base1.0-dev \
+        libgstreamer-opencv1.0-0 \
+        libgstreamer1.0-dev \
+        liblapacke-dev \
+        libva-dev libva-drm2 libva-x11-2 libva-glx2 \
+        libhdf5-dev \
+        qtbase5-dev \
+        qtchooser \
+        qt5-qmake \
+        qtbase5-dev-tools \
+        libvtk9-dev libvtk9-qt-dev \
+        usbutils \
+        libusb-1.0-0-dev \
+        clang && \
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python3 get-pip.py && \
+    ln -s /usr/bin/python3 /usr/bin/python && \
+    apt-get autoclean && apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install boost
-RUN apt-get install -y libboost-all-dev
+# RUN apt-get install -y libboost-all-dev
 
 # Install pip
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-RUN python3 get-pip.py
+# RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+# RUN python3 get-pip.py
 
 # Install Rust
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+# RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
-RUN ln -s /usr/bin/python3 /usr/bin/python
+# RUN ln -s /usr/bin/python3 /usr/bin/python
 
-RUN apt-get autoclean && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# RUN apt-get autoclean && apt-get clean \
+#     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
