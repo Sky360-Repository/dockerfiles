@@ -1,10 +1,7 @@
-# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile . -t sky360/sky360lib:1.0.21 -t sky360/sky360lib:latest
-# docker buildx build --push --platform linux/amd64 --no-cache -f Dockerfile-simple . -t sky360/simple:1.0.2
-# docker buildx build --push --platform linux/amd64 -f Dockerfile-simple3 . -t sky360/simple3:1.0.0
+# docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile-simple2 . -t sky360/sky360lib-app:1.0.0 -t sky360/sky360lib-app:latest
+# docker buildx build --push --platform linux/amd64 --no-cache -f Dockerfile-simple2 . -t sky360/sky360lib-app:1.0.0 -t sky360/sky360lib-app:latest
 
-# docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/simple3:1.0.0 bash
-
-# docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY ubuntu:22.04 bash
+# docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/sky360lib-app:latest bash
 
 # Builder
 FROM ubuntu:22.04 as builder
@@ -135,8 +132,9 @@ ENV PYTHONPATH=$PYTHONPATH:/usr/lib/python3/dist-packages/cv2/python-3.10/
 # ENV PYTHONPATH=$PYTHONPATH:/opt/bgslibrary/build/lib.linux-x86_64-cpython-310:/opt/bgslibrary/build/lib.linux-aarch64-cpython-310
 
 ###################################################################
-FROM opencv as sky360lib-dev
-RUN cd /opt && \
+FROM ubuntu:22.04 as qhy
+RUN apt-get update && apt-get install -y --no-install-recommends wget tar && \
+    cd /opt && \
     TMPDIR=/opt && \
     AMD64_LINK=https://www.qhyccd.com/file/repository/publish/SDK/230228/sdk_linux64_23.02.28.tgz && \
     ARM64_LINK=https://www.qhyccd.com/file/repository/publish/SDK/230228/sdk_Arm64_23.02.28.tgz && \
@@ -153,9 +151,10 @@ RUN cd /opt && \
     bash install.sh
 
 ###################################################################
-FROM sky360lib-dev as sky360lib
-# Install sky360lib
-RUN cd /opt && \
+FROM opencv as sky360lib
+COPY --from=qhy /opt/sdk_qhy /opt/sdk_qhy/
+RUN cd /opt/sdk_qhy && bash install.sh && \
+    cd /opt && \
     GIT_SSL_NO_VERIFY=true git clone --recursive https://github.com/Sky360-Repository/sky360lib.git && \
     mkdir -p /opt/sky360lib/build && \
     cd /opt/sky360lib/build && \
@@ -168,13 +167,12 @@ ENV PYTHONPATH=$PYTHONPATH:/opt/sky360lib/build/lib
 ###################################################################
 FROM ubuntu:22.04 AS sky360lib-app
 COPY --from=sky360lib /usr/local/ /usr/local/
-COPY --from=sky360lib /opt/sdk_qhy /opt/sdk_qhy/
+COPY --from=qhy /opt/sdk_qhy /opt/sdk_qhy/
 #COPY --from=sky360lib /opt/sky360lib/Dahua-20220901-184734.mp4 /usr/local/bin/
 RUN apt-get update && apt-get install -y --no-install-recommends \
         libtbb12 libqt5opengl5 libqt5test5 libdc1394-25 libgstreamer-plugins-base1.0-0 \
         libavcodec58 libavformat58 libswscale5 liblapack3 libatlas-base-dev openexr && \
-    cd /opt/sdk_qhy && \
-    bash install.sh && \
+    cd /opt/sdk_qhy && bash install.sh && \
     sh -c 'echo "/usr/local/lib" >> /etc/ld.so.conf.d/opencv.conf' && \
     ldconfig && \
     apt-get autoclean && apt-get clean && \
