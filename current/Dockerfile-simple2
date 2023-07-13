@@ -1,5 +1,5 @@
 # docker buildx build --push --platform linux/amd64,linux/arm64 --no-cache -f Dockerfile-simple2 . -t sky360/sky360lib-app:1.0.0 -t sky360/sky360lib-app:latest --target sky360lib-app
-# docker buildx build --push --platform linux/amd64,linux/arm64 -f Dockerfile-simple2 . -t sky360/ros2-dev:1.0.0 -t sky360/ros2-dev:latest --target ros2-dev
+# docker buildx build --push --platform linux/amd64,linux/arm64 -f Dockerfile-simple2 . -t sky360/ros2-dev:1.0.1 -t sky360/ros2-dev:latest --target ros2-dev
 
 # docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY sky360/sky360lib-app:latest bash
 
@@ -207,28 +207,29 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
    && apt-get autoclean && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp \
    && curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
-   && curl -sSL https://raw.githubusercontent.com/eProsima/vulcanexus/main/vulcanexus.key -o /usr/share/keyrings/vulcanexus-archive-keyring.gpg \
+#    && curl -sSL https://raw.githubusercontent.com/eProsima/vulcanexus/main/vulcanexus.key -o /usr/share/keyrings/vulcanexus-archive-keyring.gpg \
    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null \
-   && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/vulcanexus-archive-keyring.gpg] http://repo.vulcanexus.org/debian $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/vulcanexus.list > /dev/null \
+#    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/vulcanexus-archive-keyring.gpg] http://repo.vulcanexus.org/debian $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/vulcanexus.list > /dev/null \
    && apt-get update && apt-get install -y \
          ros-humble-ros-base \
          ros-humble-rosbridge-server \
          ros-humble-rqt* \
+         ros-humble-vision-msgs \
          python3-argcomplete \
          python3-vcstool \
          python3-rosdep \
          python3-colcon-common-extensions \
-         vulcanexus-humble-base \
+        #  vulcanexus-humble-base \
    && rm -rf /var/lib/apt/lists/* \
-   # Build eProsima / prometheus-cpp --> https://github.com/eProsima/prometheus-cpp/
-   && cd /tmp \
-   && git clone https://github.com/eProsima/prometheus-cpp.git \
-   && cd /tmp/prometheus-cpp \
-   && git submodule init && git submodule update && mkdir build \
-   && cd /tmp/prometheus-cpp/build \
-   && cmake .. -DBUILD_SHARED_LIBS=ON -DENABLE_PUSH=OFF -DENABLE_COMPRESSION=OFF \
-   && cmake --build . -j $(nproc) \
-   && cmake --install . \
+#    # Build eProsima / prometheus-cpp --> https://github.com/eProsima/prometheus-cpp/
+#    && cd /tmp \
+#    && git clone https://github.com/eProsima/prometheus-cpp.git \
+#    && cd /tmp/prometheus-cpp \
+#    && git submodule init && git submodule update && mkdir build \
+#    && cd /tmp/prometheus-cpp/build \
+#    && cmake .. -DBUILD_SHARED_LIBS=ON -DENABLE_PUSH=OFF -DENABLE_COMPRESSION=OFF \
+#    && cmake --build . -j $(nproc) \
+#    && cmake --install . \
    # 
    && rosdep init || echo "rosdep already initialized" \
    && groupadd --gid $USER_GID $USERNAME \
@@ -237,8 +238,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME\
    && chmod 0440 /etc/sudoers.d/$USERNAME \
    && echo "source /usr/share/bash-completion/completions/git" >> /home/$USERNAME/.bashrc \
-   && echo "if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then source /opt/ros/${ROS_DISTRO}/setup.bash; fi" >> /home/$USERNAME/.bashrc \
-   && echo "if [ -f /opt/vulcanexus/${ROS_DISTRO}/setup.bash ]; then source /opt/vulcanexus/${ROS_DISTRO}/setup.bash; fi" >> /home/$USERNAME/.bashrc
+   && echo "if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then source /opt/ros/${ROS_DISTRO}/setup.bash; fi" >> /home/$USERNAME/.bashrc 
+#    && echo "if [ -f /opt/vulcanexus/${ROS_DISTRO}/setup.bash ]; then source /opt/vulcanexus/${ROS_DISTRO}/setup.bash; fi" >> /home/$USERNAME/.bashrc
 ENV ROS_DISTRO=humble
 ENV AMENT_PREFIX_PATH=/opt/ros/humble
 ENV COLCON_PREFIX_PATH=/opt/ros/humble
